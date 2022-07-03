@@ -6,8 +6,6 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Typography } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Box } from "@ya.praktikum/react-developer-burger-ui-components";
 import HeaderNavElement from "../header-nav-element/header-nav-element.jsx";
 
 export default function AppHeader() {
