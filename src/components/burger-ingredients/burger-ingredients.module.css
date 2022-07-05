@@ -49,6 +49,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
+  width: 600px;
 }
 
 .ingredients__list {
@@ -58,4 +59,5 @@
   list-style-type: none;
   display: grid;
   grid-template-columns: 272px 272px;
+  gap: 24px;
 }
