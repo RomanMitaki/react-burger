@@ -1,9 +1,8 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../ingredient-card/ingredient-card.jsx";
-
 
 export default function BurgerIngredients(props) {
   const [current, setCurrent] = React.useState("one");
@@ -40,7 +39,9 @@ export default function BurgerIngredients(props) {
       </ul>
       <div className={styles.ingredients__container}>
         <div className={styles.ingredient_kind__container}>
-          <h2 id="buns" className="text text_type_main-medium mb-6">Булки</h2>
+          <h2 id="buns" className="text text_type_main-medium mb-6">
+            Булки
+          </h2>
           <ul className={`${styles.ingredients__list}`}>
             {props.data.map(
               (ingredient, i) =>
@@ -53,7 +54,9 @@ export default function BurgerIngredients(props) {
           </ul>
         </div>
         <div className={styles.ingredient_kind__container}>
-          <h2 id="sauce" className="text text_type_main-medium mb-6">Соусы</h2>
+          <h2 id="sauce" className="text text_type_main-medium mb-6">
+            Соусы
+          </h2>
           <ul className={`${styles.ingredients__list}`}>
             {props.data.map(
               (ingredient, i) =>
@@ -66,7 +69,9 @@ export default function BurgerIngredients(props) {
           </ul>
         </div>
         <div className={styles.ingredient_kind__container}>
-          <h2 id="main" className="text text_type_main-medium mb-6">Начинки</h2>
+          <h2 id="main" className="text text_type_main-medium mb-6">
+            Начинки
+          </h2>
           <ul className={`${styles.ingredients__list}`}>
             {props.data.map(
               (ingredient, i) =>
@@ -82,5 +87,3 @@ export default function BurgerIngredients(props) {
     </section>
   );
 }
-
-

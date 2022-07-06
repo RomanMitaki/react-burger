@@ -9,7 +9,6 @@ export default function App() {
   const [ingredients, setData] = React.useState([]);
 
   React.useEffect(() => {
-    
     const getData = async () => {
       try {
         const res = await fetch(API);
