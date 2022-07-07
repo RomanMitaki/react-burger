@@ -8,30 +8,31 @@
   align-items: center;
   display: flex;
   overflow: hidden;
-  z-index: 1;
+  z-index: 2;
+  background-color: transparent;
 }
 
 .popup__container {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-width: 720px;
-  min-height: 720px;
+  width: 720px;
   position: relative;
-  z-index: 1;
-  color: white;
+  z-index: 2;
+  border-radius: 40px;
+  background-color: #1C1C21;
 }
 
 .closeBtn {
   position: absolute;
   width: 24px;
   height: 24px;
-  top: 60px;
+  top: 54px;
   right: 40px;
   padding: 0;
   margin: 0;
   border: 0;
   background-color: transparent;
   cursor: pointer;
-  z-index: 1;
+  z-index: 2;
 }

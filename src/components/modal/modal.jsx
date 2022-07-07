@@ -23,19 +23,21 @@ export default function Modal(props) {
     return null;
   }
 
-  return ReactDOM.createPortal((
+  return ReactDOM.createPortal(
     <section className={styles.popup}>
       <div className={styles.popup__container}>
-        ddddddddd<button
-          className={`${styles.closeBtn}`}
-          onClick={props.onClose}
-        >
+        <button className={`${styles.closeBtn}`} onClick={props.onClose}>
           <CloseIcon />
         </button>
         {props.children}
       </div>
-      <ModalOverlay closeModalWindow={props.onClose} />
-    </section>),
+      <ModalOverlay onClose={props.onClose} />
+    </section>,
     document.body
   );
 }
+
+Modal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  isOpened: PropTypes.bool.isRequired,
+};
