@@ -1,0 +1,38 @@
+.popup {
+  min-height: 100vh;
+  min-width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  overflow: hidden;
+  z-index: 2;
+  background-color: transparent;
+}
+
+.popup__container {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 720px;
+  position: relative;
+  z-index: 2;
+  border-radius: 40px;
+  background-color: #1C1C21;
+}
+
+.closeBtn {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 54px;
+  right: 40px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  z-index: 2;
+}

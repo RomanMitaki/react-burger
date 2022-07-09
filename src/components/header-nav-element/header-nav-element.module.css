@@ -1,0 +1,31 @@
+.element {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+}
+
+.link {
+  text-decoration: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.link__text {
+  box-sizing: border-box;
+  margin: 0 auto;
+  color: #8585ad;
+}
+
+.link:active .link__text {
+  color: #f2f2f3;
+}
+
+.link:active svg {
+  fill: #f2f2f3;
+}
+
+.element:last-child {
+  margin-right: 0;
+}
