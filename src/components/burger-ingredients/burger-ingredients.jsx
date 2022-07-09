@@ -3,9 +3,16 @@ import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../ingredient-card/ingredient-card.jsx";
+import ingredientType from "../../utils/types.js";
+import Modal from "../modal/modal.jsx";
+import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
 
 export default function BurgerIngredients(props) {
   const [current, setCurrent] = React.useState("one");
+  const [modalKind, setIsOpened] = React.useState({
+    isOpened: false,
+    ingredientDetails: {},
+  });
 
   return (
     <section className={`${styles.section} mt-10`}>
@@ -44,10 +51,18 @@ export default function BurgerIngredients(props) {
           </h2>
           <ul className={`${styles.ingredients__list}`}>
             {props.data.map(
-              (ingredient, i) =>
+              (ingredient) =>
                 ingredient.type === "bun" && (
-                  <li key={i} className="mb-10">
-                    <IngredientCard ingredient={ingredient} />
+                  <li key={ingredient._id} className="mb-10">
+                    <IngredientCard
+                      ingredient={ingredient}
+                      onClick={() => {
+                        setIsOpened({
+                          isOpened: true,
+                          ingredientDetails: ingredient,
+                        });
+                      }}
+                    />
                   </li>
                 )
             )}
@@ -59,10 +74,18 @@ export default function BurgerIngredients(props) {
           </h2>
           <ul className={`${styles.ingredients__list}`}>
             {props.data.map(
-              (ingredient, i) =>
+              (ingredient) =>
                 ingredient.type === "sauce" && (
-                  <li key={i} className="mb-8">
-                    <IngredientCard ingredient={ingredient} />
+                  <li key={ingredient._id} className="mb-8">
+                    <IngredientCard
+                      ingredient={ingredient}
+                      onClick={() => {
+                        setIsOpened({
+                          isOpened: true,
+                          ingredientDetails: ingredient,
+                        });
+                      }}
+                    />
                   </li>
                 )
             )}
@@ -74,36 +97,37 @@ export default function BurgerIngredients(props) {
           </h2>
           <ul className={`${styles.ingredients__list}`}>
             {props.data.map(
-              (ingredient, i) =>
+              (ingredient) =>
                 ingredient.type === "main" && (
-                  <li key={i} className="mb-10">
-                    <IngredientCard ingredient={ingredient} />
+                  <li key={ingredient._id} className="mb-10">
+                    <IngredientCard
+                      ingredient={ingredient}
+                      onClick={() => {
+                        setIsOpened({
+                          isOpened: true,
+                          ingredientDetails: ingredient,
+                        });
+                      }}
+                    />
                   </li>
                 )
             )}
           </ul>
         </div>
       </div>
+      <Modal
+        onClose={() => {
+          setIsOpened({ isOpened: false, ingredientDetails: {} });
+        }}
+        isOpened={modalKind.isOpened}
+      >
+        <IngredientDetails data={modalKind.ingredientDetails} />
+      </Modal>
     </section>
   );
 }
 
 BurgerIngredients.propTypes = {
   text: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      image_mobile: PropTypes.string.isRequired,
-      image_large: PropTypes.string.isRequired,
-      __v: PropTypes.number.isRequired,
-    }).isRequired
-  ).isRequired,
+  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
 };
