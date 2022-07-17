@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
@@ -10,13 +9,13 @@ import {
 import Modal from "../modal/modal.jsx";
 import OrderDetails from "../order-details/order-details.jsx";
 import icon from "../../images/popup-done.png";
-import ingredientType from "../../utils/types.js";
 import { useContext, useReducer } from "react";
 import { IngredientsContext } from "../app/app";
 
 export default function BurgerConstructor() {
   const data = useContext(IngredientsContext);
   const [isOpened, setIsOpened] = React.useState(false);
+  const [orderNumber, setOrderNumber] = React.useState(0);
   const [currentIngredients, setCurrentIngredients] = React.useState([]);
   const [totalPrice, dispatch] = useReducer(reducer, 0);
 
@@ -25,15 +24,9 @@ export default function BurgerConstructor() {
     data[2],
     data[3],
     data[4],
-    data[5],
-    data[6],
     data[7],
     data[8],
     data[9],
-    data[10],
-    data[11],
-    data[12],
-    data[13],
     data[14],
   ];
 
@@ -56,6 +49,35 @@ export default function BurgerConstructor() {
   useEffect(() => {
     setCurrentIngredients([...currentIngredients, currentData]);
   }, []);
+
+  const ingredientsId = currentData.map((ingredient) => {
+    return (ingredient = ingredient._id);
+  });
+
+  const getOrder = (ingredientsId) => {
+    return fetch("https://norma.nomoreparties.space/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ingredients: ingredientsId,
+      }),
+    }).then(function (res) {
+      if (!res.ok) {
+        return Promise.reject(`Ошибка: ${res.status}`);
+      }
+      return res.json();
+    });
+  };
+
+  const getNumberOfOrder = () => {
+    getOrder(ingredientsId)
+      .then((res) => {
+        setOrderNumber(res.order.number);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <section className={`${styles.section} mt-25 pl-4 pr-4`}>
@@ -126,6 +148,8 @@ export default function BurgerConstructor() {
             type="primary"
             size="large"
             onClick={() => {
+              getOrder(ingredientsId);
+              getNumberOfOrder();
               setIsOpened(true);
             }}
           >
@@ -141,7 +165,7 @@ export default function BurgerConstructor() {
       >
         {" "}
         <OrderDetails
-          orderId={"034536"}
+          orderId={orderNumber}
           statusIcon={icon}
           status={{
             p1: "Ваш заказ начали готовить",
