@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useEffect, useContext, useReducer } from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
@@ -9,8 +10,8 @@ import {
 import Modal from "../modal/modal.jsx";
 import OrderDetails from "../order-details/order-details.jsx";
 import icon from "../../images/popup-done.png";
-import { useContext, useReducer } from "react";
-import { IngredientsContext } from "../app/app";
+import { IngredientsContext } from "../../services/contexts/ingridientsContext";
+import { getOrder } from "../api";
 
 export default function BurgerConstructor() {
   const data = useContext(IngredientsContext);
@@ -29,6 +30,10 @@ export default function BurgerConstructor() {
     data[9],
     data[14],
   ];
+
+  const ingredientsId = currentData.map((ingredient) => {
+    return (ingredient = ingredient._id);
+  });
 
   function reducer(totalPrice, action) {
     const total = action.reduce((acc, element) => {
@@ -49,25 +54,6 @@ export default function BurgerConstructor() {
   useEffect(() => {
     setCurrentIngredients([...currentIngredients, currentData]);
   }, []);
-
-  const ingredientsId = currentData.map((ingredient) => {
-    return (ingredient = ingredient._id);
-  });
-
-  const getOrder = (ingredientsId) => {
-    return fetch("https://norma.nomoreparties.space/api/orders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ingredients: ingredientsId,
-      }),
-    }).then(function (res) {
-      if (!res.ok) {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-      return res.json();
-    });
-  };
 
   const getNumberOfOrder = () => {
     getOrder(ingredientsId)

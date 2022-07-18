@@ -4,9 +4,7 @@ import AppHeader from "../app-header/app-header.jsx";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
 import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
 import API from "../../utils/constants.js";
-import { createContext } from "react";
-
-export const IngredientsContext = createContext([]);
+import { IngredientsContext } from "../../services/contexts/ingridientsContext";
 
 export default function App() {
   const [ingredients, setData] = React.useState([]);
@@ -29,13 +27,13 @@ export default function App() {
 
   return (
     <div className={styles.page}>
-      <AppHeader />
-      <main className={styles.content}>
-        <BurgerIngredients text="Соберите бургер" data={ingredients} />
-        <IngredientsContext.Provider value={ingredients}>
+      <IngredientsContext.Provider value={ingredients}>
+        <AppHeader />
+        <main className={styles.content}>
+          <BurgerIngredients text="Соберите бургер"/>
           {ingredients.length && <BurgerConstructor />}
-        </IngredientsContext.Provider>
-      </main>
+        </main>
+      </IngredientsContext.Provider>
     </div>
   );
 }

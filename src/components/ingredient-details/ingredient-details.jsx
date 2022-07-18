@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./ingredient-details.module.css";
+import ingredientType from "../../utils/types.js";
 
 export default function IngredientDetails(props) {
   return (
@@ -75,3 +75,9 @@ export default function IngredientDetails(props) {
     </div>
   );
 }
+
+
+
+IngredientDetails.propTypes = {
+  data: ingredientType.isRequired,
+};
