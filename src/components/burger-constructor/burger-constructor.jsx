@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { useEffect, useContext, useReducer } from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
@@ -10,101 +10,132 @@ import {
 import Modal from "../modal/modal.jsx";
 import OrderDetails from "../order-details/order-details.jsx";
 import icon from "../../images/popup-done.png";
-import ingredientType from "../../utils/types.js";
+import { IngredientsContext } from "../../services/contexts/ingridientsContext";
+import { getOrder } from "../api";
 
-export default function BurgerConstructor(props) {
+export default function BurgerConstructor() {
+  const data = useContext(IngredientsContext);
   const [isOpened, setIsOpened] = React.useState(false);
+  const [orderNumber, setOrderNumber] = React.useState(0);
+  const [currentIngredients, setCurrentIngredients] = React.useState([]);
+  const [totalPrice, dispatch] = useReducer(reducer, 0);
+
+  const currentData = [
+    data[0],
+    data[2],
+    data[3],
+    data[4],
+    data[7],
+    data[8],
+    data[9],
+    data[14],
+  ];
+
+  const ingredientsId = currentData.map((ingredient) => {
+    return (ingredient = ingredient._id);
+  });
+
+  function reducer(totalPrice, action) {
+    const total = action.reduce((acc, element) => {
+      if (element.type === "bun") {
+        acc += 2 * element.price;
+      } else {
+        acc += element.price;
+      }
+      return acc;
+    }, totalPrice);
+    return total;
+  }
+
+  useEffect(() => {
+    dispatch(currentData);
+  }, []);
+
+  useEffect(() => {
+    setCurrentIngredients([...currentIngredients, currentData]);
+  }, []);
+
+  const getNumberOfOrder = () => {
+    getOrder(ingredientsId)
+      .then((res) => {
+        setOrderNumber(res.order.number);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <section className={`${styles.section} mt-25 pl-4 pr-4`}>
       <div className={`${styles.constructorEl__container} pl-8`}>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={`${props.data[0].name} (верх)`}
-          price={props.data[0].price}
-          thumbnail={props.data[0].image_mobile}
-        />
+        {currentData.map((ingredient) => {
+          if (ingredient.type === "bun") {
+            return (
+              <ConstructorElement
+                key={ingredient._id}
+                type="top"
+                isLocked={true}
+                text={`${ingredient.name} (верх)`}
+                price={ingredient.price}
+                thumbnail={ingredient.image_mobile}
+              />
+            );
+          }
+        })}
       </div>
       <div className={`${styles.constructorEl__container_main} mt-4`}>
         <ul className={styles.constructorEl__list}>
-          <li className={`${styles.constructorEl} mb-4`}>
-            <button className={styles.constructor__dragBtn}>
-              <DragIcon type="primary" />
-            </button>
-            <ConstructorElement
-              text={props.data[5].name}
-              price={props.data[5].price}
-              thumbnail={props.data[5].image_mobile}
-            />
-          </li>
-          <li className={`${styles.constructorEl} mb-4`}>
-            <button className={styles.constructor__dragBtn}>
-              <DragIcon type="primary" />
-            </button>
-            <ConstructorElement
-              text={props.data[4].name}
-              price={props.data[4].price}
-              thumbnail={props.data[4].image_mobile}
-            />
-          </li>
-          <li className={`${styles.constructorEl} mb-4`}>
-            <button className={styles.constructor__dragBtn}>
-              <DragIcon type="primary" />
-            </button>
-            <ConstructorElement
-              text={props.data[7].name}
-              price={props.data[7].price}
-              thumbnail={props.data[7].image_mobile}
-            />
-          </li>
-          <li className={`${styles.constructorEl} mb-4`}>
-            <button className={styles.constructor__dragBtn}>
-              <DragIcon type="primary" />
-            </button>
-            <ConstructorElement
-              text={props.data[8].name}
-              price={props.data[8].price}
-              thumbnail={props.data[8].image_mobile}
-            />
-          </li>
-          <li className={`${styles.constructorEl} mb-4`}>
-            <button className={styles.constructor__dragBtn}>
-              <DragIcon type="primary" />
-            </button>
-            <ConstructorElement
-              text={props.data[8].name}
-              price={props.data[8].price}
-              thumbnail={props.data[8].image_mobile}
-            />
-          </li>
+          {currentData.map((ingredient) => {
+            if (ingredient.type !== "bun") {
+              return (
+                <li
+                  className={`${styles.constructorEl} mb-4`}
+                  key={ingredient._id}
+                >
+                  <button className={styles.constructor__dragBtn}>
+                    <DragIcon type="primary" />
+                  </button>
+                  <ConstructorElement
+                    text={ingredient.name}
+                    price={ingredient.price}
+                    thumbnail={ingredient.image_mobile}
+                  />
+                </li>
+              );
+            }
+          })}
         </ul>
       </div>
       <div className={`${styles.constructorEl__container} pl-8`}>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={`${props.data[0].name} (низ)`}
-          price={props.data[0].price}
-          thumbnail={props.data[0].image_mobile}
-        />
+        {currentData.map((ingredient) => {
+          if (ingredient.type === "bun") {
+            return (
+              <ConstructorElement
+                key={ingredient._id}
+                type="bottom"
+                isLocked={true}
+                text={`${ingredient.name} (низ)`}
+                price={ingredient.price}
+                thumbnail={ingredient.image_mobile}
+              />
+            );
+          }
+        })}
       </div>
       <div>
         <div className={`${styles.constructor__price_container}`}>
           <p
             className={`${styles.constructor__price} text text_type_main-large`}
           >
-            {props.data[0].price * 2 +
-              props.data[8].price * 2 +
-              props.data[7].price +
-              props.data[4].price +
-              props.data[5].price}
+            {totalPrice}
           </p>
           <CurrencyIcon type="primary" />
           <Button
             type="primary"
             size="large"
             onClick={() => {
+              getOrder(ingredientsId);
+              getNumberOfOrder();
               setIsOpened(true);
             }}
           >
@@ -120,7 +151,7 @@ export default function BurgerConstructor(props) {
       >
         {" "}
         <OrderDetails
-          orderId={"034536"}
+          orderId={orderNumber}
           statusIcon={icon}
           status={{
             p1: "Ваш заказ начали готовить",
@@ -131,7 +162,3 @@ export default function BurgerConstructor(props) {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-};

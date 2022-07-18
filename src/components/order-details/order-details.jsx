@@ -29,7 +29,7 @@ export default function OrderDetails(props) {
 }
 
 OrderDetails.propTypes = {
-  orderId: PropTypes.string.isRequired,
+  orderId: PropTypes.number.isRequired,
   statusIcon: PropTypes.string.isRequired,
   status: PropTypes.shape({
     p1: PropTypes.string.isRequired,

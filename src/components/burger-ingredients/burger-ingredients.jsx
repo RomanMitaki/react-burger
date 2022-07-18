@@ -1,13 +1,15 @@
 import React from "react";
+import { useContext } from "react";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../ingredient-card/ingredient-card.jsx";
-import ingredientType from "../../utils/types.js";
 import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
+import { IngredientsContext } from "../../services/contexts/ingridientsContext";
 
 export default function BurgerIngredients(props) {
+  const data = useContext(IngredientsContext);
   const [current, setCurrent] = React.useState("one");
   const [modalKind, setIsOpened] = React.useState({
     isOpened: false,
@@ -50,7 +52,7 @@ export default function BurgerIngredients(props) {
             Булки
           </h2>
           <ul className={`${styles.ingredients__list}`}>
-            {props.data.map(
+            {data.map(
               (ingredient) =>
                 ingredient.type === "bun" && (
                   <li key={ingredient._id} className="mb-10">
@@ -73,7 +75,7 @@ export default function BurgerIngredients(props) {
             Соусы
           </h2>
           <ul className={`${styles.ingredients__list}`}>
-            {props.data.map(
+            {data.map(
               (ingredient) =>
                 ingredient.type === "sauce" && (
                   <li key={ingredient._id} className="mb-8">
@@ -96,7 +98,7 @@ export default function BurgerIngredients(props) {
             Начинки
           </h2>
           <ul className={`${styles.ingredients__list}`}>
-            {props.data.map(
+            {data.map(
               (ingredient) =>
                 ingredient.type === "main" && (
                   <li key={ingredient._id} className="mb-10">
@@ -129,5 +131,4 @@ export default function BurgerIngredients(props) {
 
 BurgerIngredients.propTypes = {
   text: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
 };
