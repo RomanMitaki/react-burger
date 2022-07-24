@@ -1,15 +1,15 @@
 import React from "react";
-import { useContext } from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../ingredient-card/ingredient-card.jsx";
 import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
-import { IngredientsContext } from "../../services/contexts/ingridientsContext";
+
 
 export default function BurgerIngredients(props) {
-  const data = useContext(IngredientsContext);
+  const data = useSelector(store => store.burgerIngredients.ingredients);
   const [current, setCurrent] = React.useState("one");
   const [modalKind, setIsOpened] = React.useState({
     isOpened: false,

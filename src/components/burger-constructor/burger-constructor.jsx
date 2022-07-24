@@ -1,5 +1,5 @@
-import React from "react";
-import { useEffect, useContext, useReducer } from "react";
+/*import React from "react";
+import { useEffect, useReducer } from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
@@ -14,7 +14,7 @@ import { IngredientsContext } from "../../services/contexts/ingridientsContext";
 import { getOrder } from "../api";
 
 export default function BurgerConstructor() {
-  const data = useContext(IngredientsContext);
+  
   const [isOpened, setIsOpened] = React.useState(false);
   const [orderNumber, setOrderNumber] = React.useState(0);
   const [currentIngredients, setCurrentIngredients] = React.useState([]);
@@ -161,4 +161,4 @@ export default function BurgerConstructor() {
       </Modal>
     </section>
   );
-}
+}*/
