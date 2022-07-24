@@ -1,20 +1,35 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../ingredient-card/ingredient-card.jsx";
 import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
-
+import {
+  SET_INGREDIENT_DETAILS,
+  CLEAR_INGREDIENT_DETAILS,
+} from "../../services/actions/ingredient-details";
 
 export default function BurgerIngredients(props) {
-  const data = useSelector(store => store.burgerIngredients.ingredients);
+  const dispatch = useDispatch();
+  const ingredients = useSelector(
+    (store) => store.burgerIngredients.ingredients
+  );
+  const modalStatus = useSelector((store) => store.ingredientDetails.isOpened);
+  const ingredientDetails = useSelector(
+    (store) => store.ingredientDetails.ingredientDetails
+  );
+
+  const onClose = () => {
+    dispatch({ type: CLEAR_INGREDIENT_DETAILS });
+  };
+
+  const setIngredientDetails = (ingredient) => {
+    dispatch({ type: SET_INGREDIENT_DETAILS, item: ingredient });
+  };
+
   const [current, setCurrent] = React.useState("one");
-  const [modalKind, setIsOpened] = React.useState({
-    isOpened: false,
-    ingredientDetails: {},
-  });
 
   return (
     <section className={`${styles.section} mt-10`}>
@@ -52,18 +67,13 @@ export default function BurgerIngredients(props) {
             Булки
           </h2>
           <ul className={`${styles.ingredients__list}`}>
-            {data.map(
+            {ingredients.map(
               (ingredient) =>
                 ingredient.type === "bun" && (
                   <li key={ingredient._id} className="mb-10">
                     <IngredientCard
                       ingredient={ingredient}
-                      onClick={() => {
-                        setIsOpened({
-                          isOpened: true,
-                          ingredientDetails: ingredient,
-                        });
-                      }}
+                      onClick={() => setIngredientDetails(ingredient)}
                     />
                   </li>
                 )
@@ -75,18 +85,13 @@ export default function BurgerIngredients(props) {
             Соусы
           </h2>
           <ul className={`${styles.ingredients__list}`}>
-            {data.map(
+            {ingredients.map(
               (ingredient) =>
                 ingredient.type === "sauce" && (
                   <li key={ingredient._id} className="mb-8">
                     <IngredientCard
                       ingredient={ingredient}
-                      onClick={() => {
-                        setIsOpened({
-                          isOpened: true,
-                          ingredientDetails: ingredient,
-                        });
-                      }}
+                      onClick={() => setIngredientDetails(ingredient)}
                     />
                   </li>
                 )
@@ -98,18 +103,13 @@ export default function BurgerIngredients(props) {
             Начинки
           </h2>
           <ul className={`${styles.ingredients__list}`}>
-            {data.map(
+            {ingredients.map(
               (ingredient) =>
                 ingredient.type === "main" && (
                   <li key={ingredient._id} className="mb-10">
                     <IngredientCard
                       ingredient={ingredient}
-                      onClick={() => {
-                        setIsOpened({
-                          isOpened: true,
-                          ingredientDetails: ingredient,
-                        });
-                      }}
+                      onClick={() => setIngredientDetails(ingredient)}
                     />
                   </li>
                 )
@@ -117,13 +117,8 @@ export default function BurgerIngredients(props) {
           </ul>
         </div>
       </div>
-      <Modal
-        onClose={() => {
-          setIsOpened({ isOpened: false, ingredientDetails: {} });
-        }}
-        isOpened={modalKind.isOpened}
-      >
-        <IngredientDetails data={modalKind.ingredientDetails} />
+      <Modal onClose={onClose} isOpened={modalStatus}>
+        <IngredientDetails data={ingredientDetails} />
       </Modal>
     </section>
   );
