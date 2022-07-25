@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header.jsx";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
-//import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
+import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/burger-ingredients";
 
@@ -25,7 +25,7 @@ export default function App() {
         {!ingredientsRequest && !ingredientsFailed && ingredients.length && (
           <BurgerIngredients text="Соберите бургер" />
         )}
-        {/*{ingredients.length && <BurgerConstructor />}*/}
+        {ingredients.length && <BurgerConstructor />}
       </main>
     </div>
   );

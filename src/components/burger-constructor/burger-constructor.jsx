@@ -1,4 +1,4 @@
-/*import React from "react";
+import React from "react";
 import { useEffect, useReducer } from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -10,15 +10,16 @@ import {
 import Modal from "../modal/modal.jsx";
 import OrderDetails from "../order-details/order-details.jsx";
 import icon from "../../images/popup-done.png";
-import { IngredientsContext } from "../../services/contexts/ingridientsContext";
 import { getOrder } from "../api";
+import { useDispatch, useSelector } from "react-redux";
+import { SET_CURRENT_INGREDIENTS } from "../../services/actions/burger-constructor";
 
 export default function BurgerConstructor() {
-  
+  const dispatch = useDispatch();
+  const data = useSelector((store) => store.burgerIngredients.ingredients);
   const [isOpened, setIsOpened] = React.useState(false);
   const [orderNumber, setOrderNumber] = React.useState(0);
-  const [currentIngredients, setCurrentIngredients] = React.useState([]);
-  const [totalPrice, dispatch] = useReducer(reducer, 0);
+  const [totalPrice, dispatcher] = useReducer(reducer, 0);
 
   const currentData = [
     data[0],
@@ -48,11 +49,11 @@ export default function BurgerConstructor() {
   }
 
   useEffect(() => {
-    dispatch(currentData);
+    dispatcher(currentData);
   }, []);
 
   useEffect(() => {
-    setCurrentIngredients([...currentIngredients, currentData]);
+    dispatch({ type: SET_CURRENT_INGREDIENTS, data: currentData });
   }, []);
 
   const getNumberOfOrder = () => {
@@ -161,4 +162,4 @@ export default function BurgerConstructor() {
       </Modal>
     </section>
   );
-}*/
+}
