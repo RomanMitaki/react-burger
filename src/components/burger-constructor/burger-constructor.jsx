@@ -9,16 +9,18 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal.jsx";
 import OrderDetails from "../order-details/order-details.jsx";
-import icon from "../../images/popup-done.png";
-import { getOrder } from "../api";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_CURRENT_INGREDIENTS } from "../../services/actions/burger-constructor";
+import {
+  SET_ORDER_DETAILS,
+  CLEAR_ORDER_DETAILS,
+} from "../../services/actions/order-details";
+import { getNumberOfOrder } from "../../services/actions/order-details";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
   const data = useSelector((store) => store.burgerIngredients.ingredients);
-  const [isOpened, setIsOpened] = React.useState(false);
-  const [orderNumber, setOrderNumber] = React.useState(0);
+  const modalStatus = useSelector((store) => store.orderDetails.isOpened);
   const [totalPrice, dispatcher] = useReducer(reducer, 0);
 
   const currentData = [
@@ -48,6 +50,14 @@ export default function BurgerConstructor() {
     return total;
   }
 
+  const onClose = () => {
+    dispatch({ type: CLEAR_ORDER_DETAILS });
+  };
+
+  const setOrderDetails = () => {
+    dispatch({ type: SET_ORDER_DETAILS });
+  };
+
   useEffect(() => {
     dispatcher(currentData);
   }, []);
@@ -55,16 +65,6 @@ export default function BurgerConstructor() {
   useEffect(() => {
     dispatch({ type: SET_CURRENT_INGREDIENTS, data: currentData });
   }, []);
-
-  const getNumberOfOrder = () => {
-    getOrder(ingredientsId)
-      .then((res) => {
-        setOrderNumber(res.order.number);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
     <section className={`${styles.section} mt-25 pl-4 pr-4`}>
@@ -135,30 +135,17 @@ export default function BurgerConstructor() {
             type="primary"
             size="large"
             onClick={() => {
-              getOrder(ingredientsId);
-              getNumberOfOrder();
-              setIsOpened(true);
+              dispatch(getNumberOfOrder(ingredientsId));
+              setOrderDetails();
             }}
           >
             Оформить заказ
           </Button>
         </div>
       </div>
-      <Modal
-        onClose={() => {
-          setIsOpened(false);
-        }}
-        isOpened={isOpened}
-      >
+      <Modal onClose={onClose} isOpened={modalStatus}>
         {" "}
-        <OrderDetails
-          orderId={orderNumber}
-          statusIcon={icon}
-          status={{
-            p1: "Ваш заказ начали готовить",
-            p2: "Дождитесь готовности на орбитальной станции",
-          }}
-        />
+        <OrderDetails />
       </Modal>
     </section>
   );

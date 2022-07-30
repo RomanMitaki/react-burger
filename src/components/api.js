@@ -7,16 +7,18 @@ const checkResponse = (res) => {
   return res.json();
 };
 
-export const getEngredientsList = () => {
-  return fetch(API).then(checkResponse);
+export const getEngredientsList = async () => {
+  const res = await fetch(API);
+  return checkResponse(res);
 };
 
-export const getOrder = (ingredientsId) => {
-  return fetch(`${baseURL}/orders`, {
+export const getOrder = async (ingredientsId) => {
+  const res = await fetch(`${baseURL}/orders`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ingredients: ingredientsId,
     }),
-  }).then(checkResponse);
+  });
+  return checkResponse(res);
 };
