@@ -144,7 +144,6 @@ export default function BurgerConstructor() {
         </div>
       </div>
       <Modal onClose={onClose} isOpened={modalStatus}>
-        {" "}
         <OrderDetails />
       </Modal>
     </section>

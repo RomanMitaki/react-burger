@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
@@ -10,8 +10,28 @@ import {
   SET_INGREDIENT_DETAILS,
   CLEAR_INGREDIENT_DETAILS,
 } from "../../services/actions/ingredient-details";
+import { useInView } from "react-intersection-observer";
 
 export default function BurgerIngredients(props) {
+  const [refBuns, inViewBuns] = useInView({ threshold: 0.5 });
+  const [refSauce, inViewSauce] = useInView({ threshold: 0.5 });
+  const [refMain, inViewMain] = useInView({ threshold: 0.1 });
+  const [current, setCurrent] = React.useState("one");
+
+  const handleActiveTab = () => {
+    if (inViewBuns) {
+      setCurrent("one");
+    } else if (inViewSauce) {
+      setCurrent("two");
+    } else if (inViewMain) {
+      setCurrent("three");
+    }
+  };
+
+  useEffect(() => {
+    handleActiveTab();
+  }, [inViewBuns, inViewSauce, inViewMain]);
+
   const dispatch = useDispatch();
   const ingredients = useSelector(
     (store) => store.burgerIngredients.ingredients
@@ -28,8 +48,6 @@ export default function BurgerIngredients(props) {
   const setIngredientDetails = (ingredient) => {
     dispatch({ type: SET_INGREDIENT_DETAILS, item: ingredient });
   };
-
-  const [current, setCurrent] = React.useState("one");
 
   return (
     <section className={`${styles.section} mt-10`}>
@@ -62,7 +80,7 @@ export default function BurgerIngredients(props) {
         </li>
       </ul>
       <div className={styles.ingredients__container}>
-        <div className={styles.ingredient_kind__container}>
+        <div className={styles.ingredient_kind__container} ref={refBuns}>
           <h2 id="buns" className="text text_type_main-medium mb-6">
             Булки
           </h2>
@@ -80,7 +98,7 @@ export default function BurgerIngredients(props) {
             )}
           </ul>
         </div>
-        <div className={styles.ingredient_kind__container}>
+        <div className={styles.ingredient_kind__container} ref={refSauce}>
           <h2 id="sauce" className="text text_type_main-medium mb-6">
             Соусы
           </h2>
@@ -98,7 +116,7 @@ export default function BurgerIngredients(props) {
             )}
           </ul>
         </div>
-        <div className={styles.ingredient_kind__container}>
+        <div className={styles.ingredient_kind__container} ref={refMain}>
           <h2 id="main" className="text text_type_main-medium mb-6">
             Начинки
           </h2>

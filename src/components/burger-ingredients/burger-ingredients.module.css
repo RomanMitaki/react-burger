@@ -62,3 +62,10 @@
   grid-template-columns: 272px 272px;
   gap: 24px;
 }
+
+.tab__current {
+  box-shadow: inset 0px -2px 0px #4C4CFF;
+  pointer-events: none;
+  color: var(--text-primary-color);
+}
+
