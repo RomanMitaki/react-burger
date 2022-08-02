@@ -9,7 +9,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
     case SET_CURRENT_INGREDIENTS: {
       return {
         ...state,
-        currentIngredients: action.data,
+        currentIngredients: [...state.currentIngredients, action.data],
       };
     }
     default: {

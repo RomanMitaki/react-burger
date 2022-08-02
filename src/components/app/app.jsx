@@ -5,6 +5,8 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
 import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/burger-ingredients";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -19,14 +21,16 @@ export default function App() {
   return (
     <div className={styles.page}>
       <AppHeader />
-      <main className={styles.content}>
-        {ingredientsRequest && "Загрузка..."}
-        {ingredientsFailed && "Произошла ошибка при получении данных"}
-        {!ingredientsRequest && !ingredientsFailed && ingredients.length && (
-          <BurgerIngredients text="Соберите бургер" />
-        )}
-        {ingredients.length && <BurgerConstructor />}
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.content}>
+          {ingredientsRequest && "Загрузка..."}
+          {ingredientsFailed && "Произошла ошибка при получении данных"}
+          {!ingredientsRequest && !ingredientsFailed && ingredients.length && (
+            <BurgerIngredients text="Соберите бургер" />
+          )}
+          {ingredients.length && <BurgerConstructor />}
+        </main>
+      </DndProvider>
     </div>
   );
 }
