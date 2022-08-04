@@ -32,8 +32,7 @@ export default function BurgerConstructor() {
     return (ingredient = ingredient._id);
   });*/
   const onDropHandler = (item) => {
-    const nanoidId = nanoid();
-    dispatch(setCurrentIngredients(item, nanoidId));
+    dispatch(setCurrentIngredients(item));
   };
 
   const [{ isHover }, dropTarget] = useDrop({
@@ -82,30 +81,75 @@ export default function BurgerConstructor() {
       ref={dropTarget}
       style={{ borderColor }}
     >
-      <div className={`${styles.constructorEl__container} pl-8`}></div>
-      <div className={`${styles.constructorEl__container_main} mt-4`}></div>
-      {currentData.length && (
-        <ul className={styles.constructorEl__list}>
-          {currentData.map((ingredient) => {
-            return (
-              <li
-                className={`${styles.constructorEl} mb-4`}
-                key={ingredient.nanoidId}
-              >
-                <button className={styles.constructor__dragBtn}>
-                  <DragIcon type="primary" />
-                </button>
+      <div className={`${styles.constructorEl__container} pl-8`}>
+        {currentData.length ? (
+          currentData.map((ingredient) => {
+            if (ingredient.type === "bun") {
+              return (
                 <ConstructorElement
-                  text={ingredient.ingredient.name}
-                  price={ingredient.ingredient.price}
-                  thumbnail={ingredient.ingredient.image_mobile}
+                  key={ingredient.uniqueId}
+                  type="top"
+                  isLocked={true}
+                  text={`${ingredient.name} (верх)`}
+                  price={ingredient.price}
+                  thumbnail={ingredient.image_mobile}
                 />
-              </li>
-            );
-          })}
-        </ul>
-      )}
-      <div className={`${styles.constructorEl__container} pl-8`}></div>
+              );
+            }
+          })
+        ) : (
+          <p className='text text_type_main-large'></p>
+        )}
+      </div>
+
+      <div className={`${styles.constructorEl__container_main} mt-4`}>
+        {currentData.length ? (
+          <ul className={styles.constructorEl__list}>
+            {currentData.map((ingredient) => {
+              if (ingredient.type !== "bun") {
+                return (
+                  <li
+                    className={`${styles.constructorEl} mb-4`}
+                    key={ingredient.uniqueId}
+                  >
+                    <button className={styles.constructor__dragBtn}>
+                      <DragIcon type="primary" />
+                    </button>
+                    <ConstructorElement
+                      text={ingredient.name}
+                      price={ingredient.price}
+                      thumbnail={ingredient.image_mobile}
+                    />
+                  </li>
+                );
+              }
+            })}
+          </ul>
+        ) : (
+          <p className='text text_type_main-medium'>Переместите булочку, соусы и начинки</p>
+        )}
+      </div>
+
+      <div className={`${styles.constructorEl__container} pl-8`}>
+        {currentData.length ? (
+          currentData.map((ingredient) => {
+            if (ingredient.type === "bun") {
+              return (
+                <ConstructorElement
+                  key={ingredient.uniqueId}
+                  type="bottom"
+                  isLocked={true}
+                  text={`${ingredient.name} (верх)`}
+                  price={ingredient.price}
+                  thumbnail={ingredient.image_mobile}
+                />
+              );
+            }
+          })
+        ) : (
+          <p className='text text_type_main-large'></p>
+        )}
+      </div>
 
       <div className={`${styles.constructor__price_container}`}>
         <p className={`${styles.constructor__price} text text_type_main-large`}>
