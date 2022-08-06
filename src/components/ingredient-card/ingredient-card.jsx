@@ -54,11 +54,7 @@ export default function IngredientCard({ ingredient, onClick }) {
         ref={dragRef}
         style={{ opacity }}
       >
-        <Counter
-          count={counter()}
-          size="default"
-          style={{ display: counter() === 0 ? "none" : "block" }}
-        />
+        <Counter count={counter()} size="default" />
         <img
           className={`${styles.card__img} `}
           src={ingredient.image}

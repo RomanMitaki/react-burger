@@ -5,20 +5,21 @@ import {
   ConstructorElement,
   CurrencyIcon,
   Button,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal.jsx";
 import OrderDetails from "../order-details/order-details.jsx";
+import BurgerFilling from "./burger-filling/burger-filling";
 import { useDispatch, useSelector } from "react-redux";
-import { SET_CURRENT_INGREDIENTS } from "../../services/actions/burger-constructor";
 import {
   SET_ORDER_DETAILS,
   CLEAR_ORDER_DETAILS,
 } from "../../services/actions/order-details";
 import { getNumberOfOrder } from "../../services/actions/order-details";
-import { useDrop } from "react-dnd";
-import { nanoid } from "nanoid";
-import { setCurrentIngredients } from "../../services/actions/burger-constructor";
+import { useDrop, useDrag } from "react-dnd";
+import {
+  setCurrentIngredients,
+  deleteIngredient,
+} from "../../services/actions/burger-constructor";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -26,15 +27,45 @@ export default function BurgerConstructor() {
     (store) => store.burgerConstructor.currentIngredients
   );
   const modalStatus = useSelector((store) => store.orderDetails.isOpened);
+
+  //totalPrice
   const [totalPrice, dispatcher] = useReducer(reducer, 0);
 
-  /*const ingredientsId = currentData.map((ingredient) => {
+  function reducer(totalPrice, action) {
+    const total = action.reduce((acc, element) => {
+      if (element.type === "bun") {
+        acc += 2 * element.price;
+      } else {
+        acc += element.price;
+      }
+      return acc;
+    }, 0);
+    return total;
+  }
+
+  useEffect(() => {
+    dispatcher(currentData);
+  }, [currentData]);
+
+  //getOrderNumber and orderDetails
+  const ingredientsId = currentData.map((ingredient) => {
     return (ingredient = ingredient._id);
-  });*/
+  });
+
+  const setOrderDetails = () => {
+    dispatch({ type: SET_ORDER_DETAILS });
+  };
+
+  //handlers
   const onDropHandler = (item) => {
     dispatch(setCurrentIngredients(item));
   };
 
+  const deleteHandler = (ingredient) => {
+    dispatch(deleteIngredient(ingredient));
+  };
+
+  //dnd
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item) {
@@ -45,35 +76,12 @@ export default function BurgerConstructor() {
     }),
   });
 
-  const borderColor = isHover ? "#00cccc90" : "transparent";
+  const borderColor = isHover ? "#4c4cff90" : "transparent";
 
-  function reducer(totalPrice, action) {
-    const total = action.reduce((acc, element) => {
-      if (element.type === "bun") {
-        acc += 2 * element.price;
-      } else {
-        acc += element.price;
-      }
-      return acc;
-    }, totalPrice);
-    return total;
-  }
-
+  //modal
   const onClose = () => {
     dispatch({ type: CLEAR_ORDER_DETAILS });
   };
-
-  const setOrderDetails = () => {
-    dispatch({ type: SET_ORDER_DETAILS });
-  };
-  /*
-  useEffect(() => {
-    dispatcher(currentData);
-  }, []);
-
-  useEffect(() => {
-    dispatch({ type: SET_CURRENT_INGREDIENTS, data: currentData });
-  }, []);*/
 
   return (
     <section
@@ -98,35 +106,30 @@ export default function BurgerConstructor() {
             }
           })
         ) : (
-          <p className='text text_type_main-large'></p>
+          <p className="text text_type_main-large"></p>
         )}
       </div>
 
       <div className={`${styles.constructorEl__container_main} mt-4`}>
         {currentData.length ? (
           <ul className={styles.constructorEl__list}>
-            {currentData.map((ingredient) => {
+            {currentData.map((ingredient, index) => {
               if (ingredient.type !== "bun") {
                 return (
-                  <li
-                    className={`${styles.constructorEl} mb-4`}
+                  <BurgerFilling
+                    ingredient={ingredient}
+                    deleteHandler={() => deleteHandler(ingredient)}
                     key={ingredient.uniqueId}
-                  >
-                    <button className={styles.constructor__dragBtn}>
-                      <DragIcon type="primary" />
-                    </button>
-                    <ConstructorElement
-                      text={ingredient.name}
-                      price={ingredient.price}
-                      thumbnail={ingredient.image_mobile}
-                    />
-                  </li>
+                    index={index}
+                  />
                 );
               }
             })}
           </ul>
         ) : (
-          <p className='text text_type_main-medium'>Переместите булочку, соусы и начинки</p>
+          <p className="text text_type_main-medium">
+            Переместите булочку, соусы и начинки
+          </p>
         )}
       </div>
 
@@ -147,7 +150,7 @@ export default function BurgerConstructor() {
             }
           })
         ) : (
-          <p className='text text_type_main-large'></p>
+          <p className="text text_type_main-large"></p>
         )}
       </div>
 
@@ -160,7 +163,7 @@ export default function BurgerConstructor() {
           type="primary"
           size="large"
           onClick={() => {
-            /*dispatch(getNumberOfOrder(ingredientsId));*/
+            dispatch(getNumberOfOrder(ingredientsId));
             setOrderDetails();
           }}
         >
@@ -174,56 +177,3 @@ export default function BurgerConstructor() {
     </section>
   );
 }
-
-/*{currentData.map((ingredient) => {
-  if (ingredient.type === "bun") {
-    return (
-      <ConstructorElement
-        key={ingredient._id}
-        type="top"
-        isLocked={true}
-        text={`${ingredient.name} (верх)`}
-        price={ingredient.price}
-        thumbnail={ingredient.image_mobile}
-      />
-    );
-  }
-})}
-</div>
-<div className={`${styles.constructorEl__container_main} mt-4`}>
-<ul className={styles.constructorEl__list}>
-  {currentData.map((ingredient) => {
-    if (ingredient.type !== "bun") {
-      return (
-        <li
-          className={`${styles.constructorEl} mb-4`}
-          key={ingredient._id}
-        >
-          <button className={styles.constructor__dragBtn}>
-            <DragIcon type="primary" />
-          </button>
-          <ConstructorElement
-            text={ingredient.name}
-            price={ingredient.price}
-            thumbnail={ingredient.image_mobile}
-          />
-        </li>
-      );
-    }
-  })}
-</ul>*/
-
-/*{currentData.map((ingredient) => {
-  if (ingredient.type === "bun") {
-    return (
-      <ConstructorElement
-        key={ingredient._id}
-        type="bottom"
-        isLocked={true}
-        text={`${ingredient.name} (низ)`}
-        price={ingredient.price}
-        thumbnail={ingredient.image_mobile}
-      />
-    );
-  }
-})}*/

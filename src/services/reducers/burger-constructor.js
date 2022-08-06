@@ -1,4 +1,8 @@
-import { SET_CURRENT_INGREDIENTS } from "../actions/burger-constructor";
+import {
+  SET_CURRENT_INGREDIENTS,
+  DELETE_INGREDIENT,
+  SWAP_FILLINGS,
+} from "../actions/burger-constructor";
 import { nanoid } from "nanoid";
 
 const initialState = {
@@ -28,6 +32,26 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         };
       }
     }
+
+    case DELETE_INGREDIENT: {
+      return {
+        ...state,
+        currentIngredients: [...state.currentIngredients].filter(
+          (ingredient) => ingredient !== action.data
+        ),
+      };
+    }
+
+    case SWAP_FILLINGS: {
+      const coppiedState = [...state.currentIngredients];
+      const prevIngredient = coppiedState.splice(action.data.hoverIndex, 1, action.data.ingredient);
+      coppiedState.splice(action.data.dragIndex, 1, prevIngredient[0]);
+      return {
+        ...state,
+        currentIngredients: coppiedState,
+      };
+    }
+
     default: {
       return state;
     }
