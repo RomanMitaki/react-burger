@@ -17,7 +17,7 @@ export default function BurgerFilling({ ingredient, deleteHandler, index }) {
 
 
   const [, drop] = useDrop({
-    accept: "ingredient",
+    accept: "ingredientConstructor",
     hover(ingredient) {
       if (!ref.current) {
         return;
@@ -31,7 +31,7 @@ export default function BurgerFilling({ ingredient, deleteHandler, index }) {
   });
 
   const [{ opacity }, drag] = useDrag({
-    type: "ingredient",
+    type: "ingredientConstructor",
     item: { ...ingredient, index },
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.4 : 1,
