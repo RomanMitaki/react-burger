@@ -1,4 +1,5 @@
-import { getOrder } from "../../components/api";
+import { getOrder } from "../../utils/api";
+import { clearConstructor } from "./burger-constructor";
 
 export const SET_ORDER_DETAILS = "SET_ORDER_DETAILS";
 export const CLEAR_ORDER_DETAILS = "CLEAR_ORDER_DETAILS";
@@ -19,6 +20,7 @@ export const getNumberOfOrder = (ingredientsId) => {
             type: GET_ORDERNUMBER_SUCCESS,
             orderNumber: res.order.number,
           });
+          dispatch(clearConstructor());
         } else {
           dispatch({
             type: GET_ORDERNUMBER_FAILED,

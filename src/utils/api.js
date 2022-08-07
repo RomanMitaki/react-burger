@@ -1,4 +1,4 @@
-import { baseURL, API } from "../utils/constants";
+import { baseURL, API } from "./constants";
 
 const checkResponse = (res) => {
   if (!res.ok) {

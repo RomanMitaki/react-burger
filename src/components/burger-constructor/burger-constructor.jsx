@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -15,24 +15,24 @@ import {
   CLEAR_ORDER_DETAILS,
 } from "../../services/actions/order-details";
 import { getNumberOfOrder } from "../../services/actions/order-details";
-import { useDrop, useDrag } from "react-dnd";
+import { useDrop } from "react-dnd";
 import {
-  setCurrentIngredients,
+  setCurrentIngredient,
   deleteIngredient,
+  setTotalPrice,
 } from "../../services/actions/burger-constructor";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
-  const currentData = useSelector(
-    (store) => store.burgerConstructor.currentIngredients
+  const { currentIngredients: currentData, totalPrice } = useSelector(
+    (store) => store.burgerConstructor
   );
+
   const modalStatus = useSelector((store) => store.orderDetails.isOpened);
 
   //totalPrice
-  const [totalPrice, dispatcher] = useReducer(reducer, 0);
-
-  function reducer(totalPrice, action) {
-    const total = action.reduce((acc, element) => {
+  useEffect(() => {
+    const totalPrice = currentData.reduce((acc, element) => {
       if (element.type === "bun") {
         acc += 2 * element.price;
       } else {
@@ -40,11 +40,7 @@ export default function BurgerConstructor() {
       }
       return acc;
     }, 0);
-    return total;
-  }
-
-  useEffect(() => {
-    dispatcher(currentData);
+    dispatch(setTotalPrice(totalPrice));
   }, [currentData]);
 
   //getOrderNumber and orderDetails
@@ -58,7 +54,7 @@ export default function BurgerConstructor() {
 
   //handlers
   const onDropHandler = (item) => {
-    dispatch(setCurrentIngredients(item));
+    dispatch(setCurrentIngredient(item));
   };
 
   const deleteHandler = (ingredient) => {
@@ -142,7 +138,7 @@ export default function BurgerConstructor() {
                   key={ingredient.uniqueId}
                   type="bottom"
                   isLocked={true}
-                  text={`${ingredient.name} (верх)`}
+                  text={`${ingredient.name} (низ)`}
                   price={ingredient.price}
                   thumbnail={ingredient.image_mobile}
                 />
@@ -159,16 +155,30 @@ export default function BurgerConstructor() {
           {totalPrice}
         </p>
         <CurrencyIcon type="primary" />
-        <Button
-          type="primary"
-          size="large"
-          onClick={() => {
-            dispatch(getNumberOfOrder(ingredientsId));
-            setOrderDetails();
-          }}
-        >
-          Оформить заказ
-        </Button>
+        {currentData.some((ingredient) => ingredient.type === "bun") ? (
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => {
+              dispatch(getNumberOfOrder(ingredientsId));
+              setOrderDetails();
+            }}
+          >
+            Оформить заказ
+          </Button>
+        ) : (
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => {
+              dispatch(getNumberOfOrder(ingredientsId));
+              setOrderDetails();
+            }}
+            disabled
+          >
+            Оформить заказ
+          </Button>
+        )}
       </div>
 
       <Modal onClose={onClose} isOpened={modalStatus}>

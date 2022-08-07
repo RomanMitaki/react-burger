@@ -2,22 +2,22 @@ import {
   SET_CURRENT_INGREDIENTS,
   DELETE_INGREDIENT,
   SWAP_FILLINGS,
+  CLEAR_CONSTRUCTOR,
+  SET_TOTAL_PRICE,
 } from "../actions/burger-constructor";
-import { nanoid } from "nanoid";
 
 const initialState = {
   currentIngredients: [],
+  totalPrice: 0,
 };
 
 export const burgerConstructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CURRENT_INGREDIENTS: {
-      const uniqueId = nanoid();
       const checkBuns = state.currentIngredients.some(
         (ingredient) => ingredient.type === "bun"
       );
 
-      action.data = { ...action.data.ingredient, uniqueId };
       if (!checkBuns || action.data.type !== "bun") {
         return {
           ...state,
@@ -44,11 +44,29 @@ export const burgerConstructorReducer = (state = initialState, action) => {
 
     case SWAP_FILLINGS: {
       const coppiedState = [...state.currentIngredients];
-      const prevIngredient = coppiedState.splice(action.data.hoverIndex, 1, action.data.ingredient);
+      const prevIngredient = coppiedState.splice(
+        action.data.hoverIndex,
+        1,
+        action.data.ingredient
+      );
       coppiedState.splice(action.data.dragIndex, 1, prevIngredient[0]);
       return {
         ...state,
         currentIngredients: coppiedState,
+      };
+    }
+
+    case CLEAR_CONSTRUCTOR: {
+      return {
+        ...state,
+        currentIngredients: [],
+      };
+    }
+
+    case SET_TOTAL_PRICE: {
+      return {
+        ...state,
+        totalPrice: action.data,
       };
     }
 
