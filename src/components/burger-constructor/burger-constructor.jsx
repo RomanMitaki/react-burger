@@ -1,137 +1,189 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { useEffect } from "react";
 import styles from "./burger-constructor.module.css";
-import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
+  ConstructorElement,
   CurrencyIcon,
   Button,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal.jsx";
 import OrderDetails from "../order-details/order-details.jsx";
-import icon from "../../images/popup-done.png";
-import ingredientType from "../../utils/types.js";
+import BurgerFilling from "./burger-filling/burger-filling";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  SET_ORDER_DETAILS,
+  CLEAR_ORDER_DETAILS,
+} from "../../services/actions/order-details";
+import { getNumberOfOrder } from "../../services/actions/order-details";
+import { useDrop } from "react-dnd";
+import {
+  setCurrentIngredient,
+  deleteIngredient,
+  setTotalPrice,
+} from "../../services/actions/burger-constructor";
 
-export default function BurgerConstructor(props) {
-  const [isOpened, setIsOpened] = React.useState(false);
+export default function BurgerConstructor() {
+  const dispatch = useDispatch();
+  const { currentIngredients: currentData, totalPrice } = useSelector(
+    (store) => store.burgerConstructor
+  );
+
+  const modalStatus = useSelector((store) => store.orderDetails.isOpened);
+
+  //totalPrice
+  useEffect(() => {
+    const totalPrice = currentData.reduce((acc, element) => {
+      if (element.type === "bun") {
+        acc += 2 * element.price;
+      } else {
+        acc += element.price;
+      }
+      return acc;
+    }, 0);
+    dispatch(setTotalPrice(totalPrice));
+  }, [currentData]);
+
+  //getOrderNumber and orderDetails
+  const ingredientsId = currentData.map((ingredient) => {
+    return (ingredient = ingredient._id);
+  });
+
+  const setOrderDetails = () => {
+    dispatch({ type: SET_ORDER_DETAILS });
+  };
+
+  //handlers
+  const onDropHandler = (item) => {
+    dispatch(setCurrentIngredient(item));
+  };
+
+  const deleteHandler = (ingredient) => {
+    dispatch(deleteIngredient(ingredient));
+  };
+
+  //dnd
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      onDropHandler(item);
+    },
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+  });
+
+  const borderColor = isHover ? "#4c4cff90" : "transparent";
+
+  //modal
+  const onClose = () => {
+    dispatch({ type: CLEAR_ORDER_DETAILS });
+  };
 
   return (
-    <section className={`${styles.section} mt-25 pl-4 pr-4`}>
+    <section
+      className={`${styles.section} mt-25 pl-4 pr-4`}
+      ref={dropTarget}
+      style={{ borderColor }}
+    >
       <div className={`${styles.constructorEl__container} pl-8`}>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={`${props.data[0].name} (верх)`}
-          price={props.data[0].price}
-          thumbnail={props.data[0].image_mobile}
-        />
+        {currentData.length ? (
+          currentData.map((ingredient) => {
+            if (ingredient.type === "bun") {
+              return (
+                <ConstructorElement
+                  key={ingredient.uniqueId}
+                  type="top"
+                  isLocked={true}
+                  text={`${ingredient.name} (верх)`}
+                  price={ingredient.price}
+                  thumbnail={ingredient.image_mobile}
+                />
+              );
+            }
+          })
+        ) : (
+          <p className="text text_type_main-large"></p>
+        )}
       </div>
+
       <div className={`${styles.constructorEl__container_main} mt-4`}>
-        <ul className={styles.constructorEl__list}>
-          <li className={`${styles.constructorEl} mb-4`}>
-            <button className={styles.constructor__dragBtn}>
-              <DragIcon type="primary" />
-            </button>
-            <ConstructorElement
-              text={props.data[5].name}
-              price={props.data[5].price}
-              thumbnail={props.data[5].image_mobile}
-            />
-          </li>
-          <li className={`${styles.constructorEl} mb-4`}>
-            <button className={styles.constructor__dragBtn}>
-              <DragIcon type="primary" />
-            </button>
-            <ConstructorElement
-              text={props.data[4].name}
-              price={props.data[4].price}
-              thumbnail={props.data[4].image_mobile}
-            />
-          </li>
-          <li className={`${styles.constructorEl} mb-4`}>
-            <button className={styles.constructor__dragBtn}>
-              <DragIcon type="primary" />
-            </button>
-            <ConstructorElement
-              text={props.data[7].name}
-              price={props.data[7].price}
-              thumbnail={props.data[7].image_mobile}
-            />
-          </li>
-          <li className={`${styles.constructorEl} mb-4`}>
-            <button className={styles.constructor__dragBtn}>
-              <DragIcon type="primary" />
-            </button>
-            <ConstructorElement
-              text={props.data[8].name}
-              price={props.data[8].price}
-              thumbnail={props.data[8].image_mobile}
-            />
-          </li>
-          <li className={`${styles.constructorEl} mb-4`}>
-            <button className={styles.constructor__dragBtn}>
-              <DragIcon type="primary" />
-            </button>
-            <ConstructorElement
-              text={props.data[8].name}
-              price={props.data[8].price}
-              thumbnail={props.data[8].image_mobile}
-            />
-          </li>
-        </ul>
-      </div>
-      <div className={`${styles.constructorEl__container} pl-8`}>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={`${props.data[0].name} (низ)`}
-          price={props.data[0].price}
-          thumbnail={props.data[0].image_mobile}
-        />
-      </div>
-      <div>
-        <div className={`${styles.constructor__price_container}`}>
-          <p
-            className={`${styles.constructor__price} text text_type_main-large`}
-          >
-            {props.data[0].price * 2 +
-              props.data[8].price * 2 +
-              props.data[7].price +
-              props.data[4].price +
-              props.data[5].price}
+        {currentData.length ? (
+          <ul className={styles.constructorEl__list}>
+            {currentData.map((ingredient, index) => {
+              if (ingredient.type !== "bun") {
+                return (
+                  <BurgerFilling
+                    ingredient={ingredient}
+                    deleteHandler={() => deleteHandler(ingredient)}
+                    key={ingredient.uniqueId}
+                    index={index}
+                  />
+                );
+              }
+            })}
+          </ul>
+        ) : (
+          <p className="text text_type_main-medium">
+            Переместите булочку, соусы и начинки
           </p>
-          <CurrencyIcon type="primary" />
+        )}
+      </div>
+
+      <div className={`${styles.constructorEl__container} pl-8`}>
+        {currentData.length ? (
+          currentData.map((ingredient) => {
+            if (ingredient.type === "bun") {
+              return (
+                <ConstructorElement
+                  key={ingredient.uniqueId}
+                  type="bottom"
+                  isLocked={true}
+                  text={`${ingredient.name} (низ)`}
+                  price={ingredient.price}
+                  thumbnail={ingredient.image_mobile}
+                />
+              );
+            }
+          })
+        ) : (
+          <p className="text text_type_main-large"></p>
+        )}
+      </div>
+
+      <div className={`${styles.constructor__price_container}`}>
+        <p className={`${styles.constructor__price} text text_type_main-large`}>
+          {totalPrice}
+        </p>
+        <CurrencyIcon type="primary" />
+        {currentData.some((ingredient) => ingredient.type === "bun") ? (
           <Button
             type="primary"
             size="large"
             onClick={() => {
-              setIsOpened(true);
+              dispatch(getNumberOfOrder(ingredientsId));
+              setOrderDetails();
             }}
           >
             Оформить заказ
           </Button>
-        </div>
+        ) : (
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => {
+              dispatch(getNumberOfOrder(ingredientsId));
+              setOrderDetails();
+            }}
+            disabled
+          >
+            Оформить заказ
+          </Button>
+        )}
       </div>
-      <Modal
-        onClose={() => {
-          setIsOpened(false);
-        }}
-        isOpened={isOpened}
-      >
-        {" "}
-        <OrderDetails
-          orderId={"034536"}
-          statusIcon={icon}
-          status={{
-            p1: "Ваш заказ начали готовить",
-            p2: "Дождитесь готовности на орбитальной станции",
-          }}
-        />
+
+      <Modal onClose={onClose} isOpened={modalStatus}>
+        <OrderDetails />
       </Modal>
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-};

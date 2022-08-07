@@ -1,3 +1,4 @@
-const API = "https://norma.nomoreparties.space/api/ingredients";
+export const baseURL = "https://norma.nomoreparties.space/api";
+export const API = `${baseURL}/ingredients`;
 
-export default API;
+

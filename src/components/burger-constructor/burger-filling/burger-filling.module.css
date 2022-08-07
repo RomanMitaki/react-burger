@@ -1,0 +1,16 @@
+.constructorEl {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 568px;
+  }
+  
+  .constructor__dragBtn {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    cursor: grab;
+  }

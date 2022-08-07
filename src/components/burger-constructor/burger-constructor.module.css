@@ -3,6 +3,9 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 3%;
 }
 
 .constructorEl__container {
@@ -32,23 +35,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-}
-
-.constructorEl {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 568px;
-}
-
-.constructor__dragBtn {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background-color: transparent;
-  cursor: grab;
 }
 
 .constructor__price_container {
