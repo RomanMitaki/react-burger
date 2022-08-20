@@ -29,7 +29,9 @@ export default function AppHeader() {
           </HeaderNavElement>
         </ul>
       </nav>
-      <Logo />
+      <div className={styles.logo__container}>
+        <Logo />
+      </div>
       <nav>
         <ul className={`${styles.nav__list}`}>
           <HeaderNavElement

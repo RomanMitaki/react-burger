@@ -1,36 +1,34 @@
 import React, { useEffect } from "react";
-import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header.jsx";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
-import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getIngredients } from "../../services/actions/burger-ingredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { Login, Home } from "../../pages";
+import { Switch, Route } from "react-router-dom";
 
 export default function App() {
   const dispatch = useDispatch();
-  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
-    (store) => store.burgerIngredients
-  );
 
   useEffect(() => {
     dispatch(getIngredients());
   }, []);
 
   return (
-    <div className={styles.page}>
+    <>
       <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.content}>
-          {ingredientsRequest && "Загрузка..."}
-          {ingredientsFailed && "Произошла ошибка при получении данных"}
-          {!ingredientsRequest && !ingredientsFailed && ingredients.length && (
-            <BurgerIngredients text="Соберите бургер" />
-          )}
-          {ingredients.length && <BurgerConstructor />}
-        </main>
-      </DndProvider>
-    </div>
+      <Switch>
+        <Route path='/' exact>
+          <DndProvider backend={HTML5Backend}>
+            <Home />
+          </DndProvider>
+        </Route>
+        <Route path='/login' exact>
+          <Login />
+        </Route>
+      </Switch>
+    </>
   );
 }
+
+
