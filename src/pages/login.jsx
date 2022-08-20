@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./login.module.css";
-
 import {
   EmailInput,
   PasswordInput,
@@ -22,13 +21,19 @@ export function Login() {
         <p className={`${styles.paragraph} pb-4 text text_type_main-default`}>
           Вы — новый пользователь?
           <span>
-            <Link className={`${styles.link}`}> Зарегистрироваться</Link>
+            <Link to="/register" className={`${styles.link}`}>
+              {" "}
+              Зарегистрироваться
+            </Link>
           </span>
         </p>
         <p className={`${styles.paragraph} text text_type_main-default`}>
           Забыли пароль?
           <span>
-            <Link className={`${styles.link}`}> Восстановить пароль</Link>
+            <Link to="/forgot-password" className={`${styles.link}`}>
+              {" "}
+              Восстановить пароль
+            </Link>
           </span>
         </p>
       </main>
