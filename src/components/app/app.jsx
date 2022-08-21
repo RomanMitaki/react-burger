@@ -11,6 +11,7 @@ import {
   ForgotPassword,
   ResetPassword,
   Page404,
+  Profile
 } from "../../pages";
 import { Switch, Route } from "react-router-dom";
 
@@ -41,6 +42,9 @@ export default function App() {
         </Route>
         <Route path="/reset-password" exact>
           <ResetPassword />
+        </Route>
+        <Route path="/profile" exact>
+          <Profile />
         </Route>
         <Route>
           <Page404 />

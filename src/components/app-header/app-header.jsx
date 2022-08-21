@@ -16,14 +16,14 @@ export default function AppHeader() {
           <HeaderNavElement
             text="Конструктор"
             typography="text text_type_main-default"
-            href="#"
+            href="/"
           >
             <BurgerIcon type="secondary" />
           </HeaderNavElement>
           <HeaderNavElement
             text="Лента заказов"
             typography="text text_type_main-default"
-            href="#"
+            href="/login"
           >
             <ListIcon type="secondary" />
           </HeaderNavElement>
@@ -37,7 +37,7 @@ export default function AppHeader() {
           <HeaderNavElement
             text="Личный кабинет"
             typography="text text_type_main-default"
-            href="#"
+            href="/profile"
           >
             <ProfileIcon type="secondary" />
           </HeaderNavElement>
