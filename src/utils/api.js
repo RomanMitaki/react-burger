@@ -22,3 +22,27 @@ export const getOrder = async (ingredientsId) => {
   });
   return checkResponse(res);
 };
+
+export const registerRequest = async (regData) => {
+  const res = await fetch(`${baseURL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: regData.email,
+      password: regData.password,
+      name: regData.name,
+    }),
+  });
+  return checkResponse(res);
+};
+
+export const forgotPasswordRequest = async (email) => {
+  const res = await fetch(`${baseURL}/password-reset`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: email.email,
+    }),
+  });
+  return checkResponse(res);
+};
