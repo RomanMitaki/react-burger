@@ -58,3 +58,15 @@ export const resetPasswordRequest = async (data) => {
   });
   return checkResponse(res);
 };
+
+export const loginRequest = async (loginData) => {
+  const res = await fetch(`${baseURL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: loginData.email,
+      password: loginData.password,
+    }),
+  });
+  return checkResponse(res);
+};
