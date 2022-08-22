@@ -1,20 +1,54 @@
-import React from "react";
+import { useState } from "react";
 import styles from "./reset-password.module.css";
 import {
   Input,
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { resetPasswordRequest } from "../utils/api";
 
 export function ResetPassword() {
+  const [password, setPassword] = useState({
+    password: "",
+    verCode: "",
+    result: false,
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    resetPasswordRequest(password).then((res) =>
+      setPassword({ ...password, result: res.success })
+    );
+
+    setPassword({ ...password, password: "", verCode: "" });
+  };
+
+  if (password.result === true) {
+    return <Redirect to="/login" />;
+  }
+
   return (
     <div className={styles.page}>
       <main className={styles.content}>
-        <form className={styles.form} action="" method="post">
+        <form className={styles.form} method="post" onSubmit={handleSubmit}>
           <h1 className={`${styles.header}`}>Восстановление пароля</h1>
-          <PasswordInput/>
-          <Input placeholder="Введите код из письма"/>
+          <PasswordInput
+            value={password.password}
+            name={"password"}
+            onChange={(event) =>
+              setPassword({ ...password, password: event.target.value })
+            }
+          />
+          <Input
+            placeholder="Введите код из письма"
+            type="text"
+            value={password.checkCode}
+            name={"verCode"}
+            onChange={(event) =>
+              setPassword({ ...password, verCode: event.target.value })
+            }
+          />
           <Button>Сохранить</Button>
         </form>
         <p className={`${styles.paragraph} text text_type_main-default`}>
