@@ -1,4 +1,5 @@
 import { baseURL, API } from "./constants";
+import { getCookie } from "./utils";
 
 const checkResponse = (res) => {
   if (!res.ok) {
@@ -36,6 +37,18 @@ export const registerRequest = async (regData) => {
   return checkResponse(res);
 };
 
+export const loginRequest = async (loginData) => {
+  const res = await fetch(`${baseURL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: loginData.email,
+      password: loginData.password,
+    }),
+  });
+  return checkResponse(res);
+};
+
 export const forgotPasswordRequest = async (email) => {
   const res = await fetch(`${baseURL}/password-reset`, {
     method: "POST",
@@ -59,13 +72,46 @@ export const resetPasswordRequest = async (data) => {
   return checkResponse(res);
 };
 
-export const loginRequest = async (loginData) => {
-  const res = await fetch(`${baseURL}/auth/login`, {
+export const logoutRequest = async (refreshToken) => {
+  const res = await fetch(`${baseURL}/auth/logout`, {
     method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      email: loginData.email,
-      password: loginData.password,
+      token: refreshToken,
+    }),
+  });
+  return checkResponse(res);
+};
+
+export const getUserInfo = async () => {
+  const res = await fetch(`${baseURL}/auth/user`, {
+    method: "GET",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("accessToken"),
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  });
+  return checkResponse(res);
+};
+
+export const refreshTokenRequest = async () => {
+  const refreshToken = getCookie("refreshToken");
+  const res = await fetch(`${baseURL}/auth/token`, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      token: refreshToken,
     }),
   });
   return checkResponse(res);

@@ -32,3 +32,20 @@
 .link__active {
   color: #f2f2f3;
 }
+
+.logout__btn {
+  box-sizing: border-box;
+  line-height: 30px;
+  margin: 17px 0;
+  padding: 0;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  color: #8585ad;
+  background-color: transparent;
+}
+
+.logout__btn:hover {
+  transition: opacity 0.15s ease-in-out;
+  opacity: 0.8;
+}

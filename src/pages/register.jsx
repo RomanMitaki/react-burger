@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./register.module.css";
 import {
   EmailInput,
@@ -6,10 +7,14 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
-import { registerRequest } from "../utils/api";
+import { Link, Redirect } from "react-router-dom";
+import { regSignIn } from "../services/actions/auth";
+
 
 export function Register() {
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth.auth);
+
   const [regFormData, setRegFormData] = useState({
     email: "",
     password: "",
@@ -18,9 +23,13 @@ export function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    registerRequest(regFormData);
+    dispatch(regSignIn(regFormData));
     setRegFormData({ email: "", password: "", name: "" });
   };
+
+  if (auth) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={styles.page}>

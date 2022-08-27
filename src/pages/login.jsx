@@ -14,7 +14,7 @@ export function Login() {
   const auth = useSelector(
     (state) => state.auth.auth
   );
-  console.log(auth);
+  
 
   const [loginData, setLoginData] = useState({
     email: "",
