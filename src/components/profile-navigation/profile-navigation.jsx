@@ -25,7 +25,7 @@ export function ProfileNavigation() {
     }
   }, [auth]);
 
-  console.log(history);
+  
 
   return (
     <div className={styles.content}>

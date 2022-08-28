@@ -5,6 +5,12 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
+  UPDATE_REQUEST,
+  UPDATE_SUCCESS,
+  UPDATE_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  GET_USER_FAILED
 } from "../actions/auth";
 
 const initialState = {
@@ -14,6 +20,10 @@ const initialState = {
   authFailed: false,
   logoutRequest: false,
   logoutFailed: false,
+  updateRequest: false,
+  updateFailed: false,
+  getUserRequest: false,
+  getUserFailed: false, 
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -63,6 +73,50 @@ export const authReducer = (state = initialState, action) => {
         logoutFailed: true,
         logoutRequest: false,
         auth: true,
+      };
+    }
+    case UPDATE_REQUEST: {
+      return {
+        ...state,
+        updateRequest: true,
+        updateFailed: false,
+      };
+    }
+    case UPDATE_SUCCESS: {
+      return {
+        ...state,
+        userInfo: action.userInfo,
+        updateRequest: false,
+      };
+    }
+    case UPDATE_FAILED: {
+      return {
+        ...state,
+        updateFailed: true,
+        updateRequest: false,
+      };
+    }
+
+    case GET_USER_REQUEST: {
+      return {
+        ...state,
+        getUserRequest: true,
+        getUserFailed: false,
+      };
+    }
+    case GET_USER_SUCCESS: {
+      return {
+        ...state,
+        userInfo: action.userInfo,
+        getUserRequest: false,
+        auth: true
+      };
+    }
+    case GET_USER_FAILED: {
+      return {
+        ...state,
+        getUserFailed: true,
+        getUserRequest: false,
       };
     }
 

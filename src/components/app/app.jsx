@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import AppHeader from "../app-header/app-header.jsx";
 import { useDispatch } from "react-redux";
 import { getIngredients } from "../../services/actions/burger-ingredients";
@@ -11,15 +11,18 @@ import {
   ForgotPassword,
   ResetPassword,
   Page404,
-  Profile
+  Profile,
 } from "../../pages";
 import { Switch, Route } from "react-router-dom";
+import { ProtectedRoute } from "../protected-route.jsx";
+import { getUser } from "../../services/actions/auth.js";
 
 export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredients());
+    dispatch(getUser());
   }, []);
 
   return (

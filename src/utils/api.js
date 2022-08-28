@@ -116,3 +116,23 @@ export const refreshTokenRequest = async () => {
   });
   return checkResponse(res);
 };
+
+export const updateUserInfo = async (updateData) => {
+  const res = await fetch(`${baseURL}/auth/user`, {
+    method: "PATCH",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("accessToken"),
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify({
+      email: updateData.email,
+      name: updateData.name,
+    }),
+  });
+  return checkResponse(res);
+};

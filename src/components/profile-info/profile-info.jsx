@@ -1,62 +1,119 @@
 import styles from "./profile-info.module.css";
-import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { getUserInfo, refreshTokenRequest } from "../../utils/api";
+import {
+  Input,
+  Button,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setCookie } from "../../utils/utils";
+import { updateUserData } from "../../services/actions/auth";
 
 export function ProfileInfo() {
+  const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth.auth);
+  const { name: storeName, email: storeEmail } = useSelector(
+    (state) => state.auth.userInfo
+  );
   const [userInfo, setUserInfo] = useState({
-    email: "Логин",
+    holderEmail: "Логин",
     password: "",
-    name: "Имя",
+    holderName: "Имя",
+    email: "",
+    name: "",
   });
 
   useEffect(() => {
-    getUserInfo()
-      .then((res) => {
-        if (res.success === true) {
-          setUserInfo({
-            ...userInfo,
-            email: res.user.email,
-            name: res.user.name,
-          });
-        }
-        if (res.success === false) {
-          refreshTokenRequest().then((res) => {
-            let accessToken = res.accessToken.split("Bearer ")[1];
-            if (accessToken) {
-              setCookie("accessToken", accessToken);
-            }
-            getUserInfo().then((res) => {
-              setUserInfo({
-                ...userInfo,
-                email: res.user.email,
-                name: res.user.name,
-              });
-            });
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    setUserInfo({
+      ...userInfo,
+      holderEmail: storeEmail,
+      holderName: storeName,
+    });
+  }, [storeName, storeEmail]);
 
   useEffect(() => {
     if (!auth) {
-      setUserInfo({ email: "Логин", password: "", name: "Имя" });
+      setUserInfo({
+        holderEmail: "Логин",
+        password: "",
+        holderName: "Имя",
+        email: "",
+        name: "",
+      });
     }
   }, [auth]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateUserData(userInfo));
+    setUserInfo({
+      holderEmail: storeEmail,
+      password: "",
+      holderName: storeName,
+      email: "",
+      name: "",
+    });
+  };
+
+  const declineUpdate = () => {
+    setUserInfo({
+      holderEmail: storeEmail,
+      password: "",
+      holderName: storeName,
+      email: "",
+      name: "",
+    });
+  };
+
   return (
-    <form className={styles.form}>
-      <Input type={"text"} placeholder={userInfo.name} icon={"EditIcon"} />
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <Input
+        type={"text"}
+        placeholder={userInfo.holderName}
+        icon={"EditIcon"}
+        value={userInfo.name}
+        name={"name"}
+        onChange={(event) =>
+          setUserInfo({ ...userInfo, name: event.target.value })
+        }
+      />
 
-      <Input type={"email"} placeholder={userInfo.email} icon={"EditIcon"} />
+      <Input
+        type={"email"}
+        placeholder={userInfo.holderEmail}
+        icon={"EditIcon"}
+        value={userInfo.email}
+        name={"email"}
+        onChange={(event) =>
+          setUserInfo({ ...userInfo, email: event.target.value })
+        }
+      />
 
-      <Input type={"password"} placeholder={"Пароль"} icon={"EditIcon"} />
+      <Input
+        type={"password"}
+        placeholder={"Пароль"}
+        icon={"EditIcon"}
+        value={userInfo.password}
+        name={"password"}
+        onChange={(event) =>
+          setUserInfo({ ...userInfo, password: event.target.value })
+        }
+      />
+      {userInfo.email.length > 0 &&
+        userInfo.name.length > 0 &&
+        userInfo.password.length > 0 && (
+          <div className={styles.btns__container}>
+            <Button
+              type="secondary"
+              size="medium"
+              onClick={() => declineUpdate()}
+            >
+              Отмена
+            </Button>
+            <Button type="primary" size="medium">
+              Сохранить
+            </Button>
+          </div>
+        )}
     </form>
   );
 }
