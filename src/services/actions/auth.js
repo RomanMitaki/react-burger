@@ -4,7 +4,8 @@ import {
   logoutRequest,
   updateUserInfo,
   refreshTokenRequest,
-  getUserInfo
+  getUserInfo,
+  forgotPasswordRequest,
 } from "../../utils/api";
 import { setCookie, getCookie } from "../../utils/utils";
 
@@ -22,7 +23,11 @@ export const UPDATE_FAILED = "UPDATE_FAILED";
 
 export const GET_USER_REQUEST = "GET_USER_REQUEST";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
-export const GET_USER_FAILED =  "GET_USER_FAILED";
+export const GET_USER_FAILED = "GET_USER_FAILED";
+
+export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD";
+export const FORGOT_PASSWORD_FAILED = "FORGOT_PASSWORD";
+
 
 export function signIn(loginData) {
   return function (dispatch) {
@@ -194,6 +199,23 @@ export function updateUserData(updateData) {
       .catch((err) => {
         dispatch({
           type: UPDATE_FAILED,
+        });
+      });
+  };
+}
+
+export function updatePassword(email) {
+  return function (dispatch) {
+    forgotPasswordRequest(email)
+      .then((res) => {
+        dispatch({
+          type: FORGOT_PASSWORD_REQUEST,
+          updatePasswordStatus: res.success,
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: FORGOT_PASSWORD_FAILED,
         });
       });
   };

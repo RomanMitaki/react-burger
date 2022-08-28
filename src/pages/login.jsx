@@ -15,7 +15,6 @@ export function Login() {
     (state) => state.auth.auth
   );
   
-
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",

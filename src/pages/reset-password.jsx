@@ -7,8 +7,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from "react-router-dom";
 import { resetPasswordRequest } from "../utils/api";
+import { useSelector } from "react-redux";
 
 export function ResetPassword() {
+  const auth = useSelector(
+    (state) => state.auth.auth
+  );
+  const updatePasswordStatus = useSelector((state) => state.auth.updatePasswordStatus);
   const [password, setPassword] = useState({
     password: "",
     verCode: "",
@@ -25,6 +30,14 @@ export function ResetPassword() {
   };
 
   if (password.result === true) {
+    return <Redirect to="/login" />;
+  }
+
+  if (auth) {
+    return <Redirect to="/" />;
+  }
+
+  if (!updatePasswordStatus) {
     return <Redirect to="/login" />;
   }
 

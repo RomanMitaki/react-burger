@@ -6,8 +6,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from "react-router-dom";
 import { forgotPasswordRequest } from "../utils/api";
+import { updatePassword } from "../services/actions/auth";
+import { useSelector, useDispatch } from "react-redux";
 
 export function ForgotPassword() {
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth.auth);
+  const updatePasswordStatus = useSelector((state) => state.auth.updatePasswordStatus);
   const [email, setEmail] = useState({
     email: "",
     result: false,
@@ -15,15 +20,16 @@ export function ForgotPassword() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    forgotPasswordRequest(email).then((res) =>
-      setEmail({ ...email, result: res.success })
-    );
-
+    dispatch(updatePassword(email));
     setEmail({ ...email, email: "" });
   };
 
-  if (email.result === true) {
+  if (updatePasswordStatus) {
     return <Redirect to="/reset-password" />;
+  }
+
+  if (auth) {
+    return <Redirect to="/" />;
   }
 
   return (

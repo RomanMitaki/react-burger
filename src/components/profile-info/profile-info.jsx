@@ -5,7 +5,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCookie } from "../../utils/utils";
 import { updateUserData } from "../../services/actions/auth";
 
 export function ProfileInfo() {

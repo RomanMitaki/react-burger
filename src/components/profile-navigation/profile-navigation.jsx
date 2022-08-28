@@ -1,31 +1,18 @@
 import styles from "./profile-navigation.module.css";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../../services/actions/auth";
-import { useHistory } from "react-router-dom";
+
 import { deleteCookie } from "../../utils/utils";
-import { useEffect } from "react";
 
 export function ProfileNavigation() {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const auth = useSelector((state) => state.auth.auth);
 
   const signOut = () => {
     dispatch(logout());
     deleteCookie("refreshToken");
     deleteCookie("accessToken");
   };
-
-  useEffect(() => {
-    if (!auth) {
-      history.replace({ pathname: "/login" });
-      deleteCookie("refreshToken");
-      deleteCookie("accessToken");
-    }
-  }, [auth]);
-
-  
 
   return (
     <div className={styles.content}>

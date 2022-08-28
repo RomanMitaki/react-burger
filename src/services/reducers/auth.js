@@ -10,7 +10,9 @@ import {
   UPDATE_FAILED,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
-  GET_USER_FAILED
+  GET_USER_FAILED,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_FAILED,
 } from "../actions/auth";
 
 const initialState = {
@@ -23,7 +25,8 @@ const initialState = {
   updateRequest: false,
   updateFailed: false,
   getUserRequest: false,
-  getUserFailed: false, 
+  getUserFailed: false,
+  updatePasswordStatus: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -109,7 +112,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         userInfo: action.userInfo,
         getUserRequest: false,
-        auth: true
+        auth: true,
       };
     }
     case GET_USER_FAILED: {
@@ -117,6 +120,19 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         getUserFailed: true,
         getUserRequest: false,
+      };
+    }
+
+    case FORGOT_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        updatePasswordStatus: action.updatePasswordStatus,
+      };
+    }
+    case FORGOT_PASSWORD_FAILED: {
+      return {
+        ...state,
+        updatePasswordStatus: false,
       };
     }
 
