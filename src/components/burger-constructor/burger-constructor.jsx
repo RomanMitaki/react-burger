@@ -21,12 +21,24 @@ import {
   deleteIngredient,
   setTotalPrice,
 } from "../../services/actions/burger-constructor";
+import { useHistory } from "react-router-dom";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { currentIngredients: currentData, totalPrice } = useSelector(
     (store) => store.burgerConstructor
   );
+  const auth = useSelector((state) => state.auth.auth);
+
+  const makeOrder = () => {
+    if (!auth) {
+      history.push("/login");
+    } else {
+      dispatch(getNumberOfOrder(ingredientsId));
+      setOrderDetails();
+    }
+  };
 
   const modalStatus = useSelector((store) => store.orderDetails.isOpened);
 
@@ -156,26 +168,11 @@ export default function BurgerConstructor() {
         </p>
         <CurrencyIcon type="primary" />
         {currentData.some((ingredient) => ingredient.type === "bun") ? (
-          <Button
-            type="primary"
-            size="large"
-            onClick={() => {
-              dispatch(getNumberOfOrder(ingredientsId));
-              setOrderDetails();
-            }}
-          >
+          <Button type="primary" size="large" onClick={makeOrder}>
             Оформить заказ
           </Button>
         ) : (
-          <Button
-            type="primary"
-            size="large"
-            onClick={() => {
-              dispatch(getNumberOfOrder(ingredientsId));
-              setOrderDetails();
-            }}
-            disabled
-          >
+          <Button type="primary" size="large" onClick={makeOrder} disabled>
             Оформить заказ
           </Button>
         )}

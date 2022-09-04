@@ -5,7 +5,6 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from "react-router-dom";
-import { forgotPasswordRequest } from "../utils/api";
 import { updatePassword } from "../services/actions/auth";
 import { useSelector, useDispatch } from "react-redux";
 
