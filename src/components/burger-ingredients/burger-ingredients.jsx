@@ -4,12 +4,7 @@ import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../ingredient-card/ingredient-card.jsx";
-import Modal from "../modal/modal.jsx";
-import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
-import {
-  SET_INGREDIENT_DETAILS,
-  CLEAR_INGREDIENT_DETAILS,
-} from "../../services/actions/ingredient-details";
+import { SET_INGREDIENT_DETAILS } from "../../services/actions/ingredient-details";
 import { useInView } from "react-intersection-observer";
 
 export default function BurgerIngredients(props) {
@@ -36,14 +31,7 @@ export default function BurgerIngredients(props) {
   const ingredients = useSelector(
     (store) => store.burgerIngredients.ingredients
   );
-  const modalStatus = useSelector((store) => store.ingredientDetails.isOpened);
-  const ingredientDetails = useSelector(
-    (store) => store.ingredientDetails.ingredientDetails
-  );
 
-  const onClose = () => {
-    dispatch({ type: CLEAR_INGREDIENT_DETAILS });
-  };
 
   const setIngredientDetails = (ingredient) => {
     dispatch({ type: SET_INGREDIENT_DETAILS, item: ingredient });
@@ -54,29 +42,19 @@ export default function BurgerIngredients(props) {
       <h1 className="text text_type_main-large">{props.text}</h1>
       <ul className={`${styles.tab_bar} mt-5 mb-10`}>
         <li className={styles.bar_element}>
-          <a href="#buns" className={styles.bar_link}>
-            <Tab value="one" active={current === "one"} onClick={setCurrent}>
-              Булки
-            </Tab>
-          </a>
+          <Tab value="one" active={current === "one"}>
+            Булки
+          </Tab>
         </li>
         <li className={styles.bar_element}>
-          <a href="#sauce" className={styles.bar_link}>
-            <Tab value="two" active={current === "two"} onClick={setCurrent}>
-              Соусы
-            </Tab>
-          </a>
+          <Tab value="two" active={current === "two"}>
+            Соусы
+          </Tab>
         </li>
         <li className={styles.bar_element}>
-          <a href="#main" className={styles.bar_link}>
-            <Tab
-              value="three"
-              active={current === "three"}
-              onClick={setCurrent}
-            >
-              Начинки
-            </Tab>
-          </a>
+          <Tab value="three" active={current === "three"}>
+            Начинки
+          </Tab>
         </li>
       </ul>
       <div className={styles.ingredients__container}>
@@ -135,9 +113,6 @@ export default function BurgerIngredients(props) {
           </ul>
         </div>
       </div>
-      <Modal onClose={onClose} isOpened={modalStatus}>
-        <IngredientDetails data={ingredientDetails} />
-      </Modal>
     </section>
   );
 }

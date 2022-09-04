@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./profile.module.css";
 import { Switch, Route } from "react-router-dom";
 import { ProfileNavigation } from "../components/profile-navigation/profile-navigation";

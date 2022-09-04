@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import AppHeader from "../app-header/app-header.jsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/burger-ingredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -12,22 +12,37 @@ import {
   ResetPassword,
   Page404,
   Profile,
+  IngredientDetailsPage,
 } from "../../pages";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route.jsx";
 import { getUser } from "../../services/actions/auth.js";
-import { getCookie } from "../../utils/utils.js";
+import Modal from "../modal/modal.jsx";
+import { CLEAR_INGREDIENT_DETAILS } from "../../services/actions/ingredient-details.js";
+import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
 
 export default function App() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(getIngredients());
     dispatch(getUser());
   }, []);
 
-  console.log(getCookie("accessToken"));
-  
+  const modalStatus = useSelector((store) => store.ingredientDetails.isOpened);
+  const ingredientDetails = useSelector(
+    (store) => store.ingredientDetails.ingredientDetails
+  );
+
+  const onClose = () => {
+    dispatch({ type: CLEAR_INGREDIENT_DETAILS });
+  };
+
+  let background = location.state && location.state.background;
+  console.log(location);
+  console.log(background);
 
   return (
     <>
@@ -50,13 +65,23 @@ export default function App() {
         <Route path="/reset-password" exact>
           <ResetPassword />
         </Route>
-        <ProtectedRoute path="/profile">
+        <ProtectedRoute path="/profile" exact>
           <Profile />
         </ProtectedRoute>
+        <Route path="/ingredients/:id" exact>
+          <IngredientDetailsPage />
+        </Route>
         <Route>
           <Page404 />
         </Route>
       </Switch>
+      {background && (
+        <Route path="/ingredients/:id">
+          <Modal onClose={onClose} isOpened={modalStatus}>
+            <IngredientDetails data={ingredientDetails} />
+          </Modal>
+        </Route>
+      )}
     </>
   );
 }
