@@ -28,7 +28,6 @@ export const GET_USER_FAILED = "GET_USER_FAILED";
 export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD";
 export const FORGOT_PASSWORD_FAILED = "FORGOT_PASSWORD";
 
-
 export function signIn(loginData) {
   return function (dispatch) {
     dispatch({
@@ -127,39 +126,53 @@ export function getUser() {
     dispatch({
       type: GET_USER_REQUEST,
     });
-    getUserInfo()
-      .then((res) => {
-        if (res.success === true) {
-          dispatch({
-            type: GET_USER_SUCCESS,
-            userInfo: res.user,
-          });
-        }
-        if (res.success === false) {
-          refreshTokenRequest().then((res) => {
-            let accessToken = res.accessToken.split("Bearer ")[1];
-            if (accessToken) {
-              setCookie("accessToken", accessToken);
-            }
-            getUserInfo().then((res) =>
-              dispatch({
-                type: GET_USER_SUCCESS,
-                userInfo: res.user,
-              })
-            );
-          });
-        }
-        if (!res) {
+    if (getCookie("accessToken") !== undefined) {
+      getUserInfo()
+        .then((res) => {
+          if (res) {
+            dispatch({
+              type: GET_USER_SUCCESS,
+              userInfo: res.user,
+            });
+          }
+          if (!res) {
+            dispatch({
+              type: GET_USER_FAILED,
+            });
+          }
+        })
+        .catch((err) => {
           dispatch({
             type: GET_USER_FAILED,
           });
-        }
-      })
-      .catch((err) => {
-        dispatch({
-          type: GET_USER_FAILED,
         });
+    } else {
+      refreshTokenRequest().then((res) => {
+        let accessToken = res.accessToken.split("Bearer ")[1];
+        if (accessToken) {
+          setCookie("accessToken", accessToken);
+        }
+        getUserInfo()
+          .then((res) => {
+            if (res) {
+              dispatch({
+                type: GET_USER_SUCCESS,
+                userInfo: res.user,
+              });
+            }
+            if (!res) {
+              dispatch({
+                type: GET_USER_FAILED,
+              });
+            }
+          })
+          .catch((err) => {
+            dispatch({
+              type: GET_USER_FAILED,
+            });
+          });
       });
+    }
   };
 }
 
@@ -168,39 +181,53 @@ export function updateUserData(updateData) {
     dispatch({
       type: UPDATE_REQUEST,
     });
-    updateUserInfo(updateData)
-      .then((res) => {
-        if (res.success === true) {
-          dispatch({
-            type: UPDATE_SUCCESS,
-            userInfo: res.user,
-          });
-        }
-        if (res.success === false) {
-          refreshTokenRequest().then((res) => {
-            let accessToken = res.accessToken.split("Bearer ")[1];
-            if (accessToken) {
-              setCookie("accessToken", accessToken);
-            }
-            updateUserInfo(updateData).then((res) =>
-              dispatch({
-                type: UPDATE_SUCCESS,
-                userInfo: res.user,
-              })
-            );
-          });
-        }
-        if (!res) {
+    if (getCookie("accessToken") !== undefined) {
+      updateUserInfo(updateData)
+        .then((res) => {
+          if (res) {
+            dispatch({
+              type: UPDATE_SUCCESS,
+              userInfo: res.user,
+            });
+          }
+          if (!res) {
+            dispatch({
+              type: UPDATE_FAILED,
+            });
+          }
+        })
+        .catch((err) => {
           dispatch({
             type: UPDATE_FAILED,
           });
-        }
-      })
-      .catch((err) => {
-        dispatch({
-          type: UPDATE_FAILED,
         });
+    } else {
+      refreshTokenRequest().then((res) => {
+        let accessToken = res.accessToken.split("Bearer ")[1];
+        if (accessToken) {
+          setCookie("accessToken", accessToken);
+        }
+        updateUserInfo(updateData)
+          .then((res) => {
+            if (res) {
+              dispatch({
+                type: UPDATE_SUCCESS,
+                userInfo: res.user,
+              });
+            }
+            if (!res) {
+              dispatch({
+                type: UPDATE_FAILED,
+              });
+            }
+          })
+          .catch((err) => {
+            dispatch({
+              type: UPDATE_FAILED,
+            });
+          });
       });
+    }
   };
 }
 

@@ -16,6 +16,7 @@ import {
 import { Switch, Route } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route.jsx";
 import { getUser } from "../../services/actions/auth.js";
+import { getCookie } from "../../utils/utils.js";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -24,6 +25,9 @@ export default function App() {
     dispatch(getIngredients());
     dispatch(getUser());
   }, []);
+
+  console.log(getCookie("accessToken"));
+  
 
   return (
     <>
