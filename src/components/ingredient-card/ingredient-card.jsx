@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./ingredient-card.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -56,7 +55,7 @@ export default function IngredientCard({ ingredient }) {
         style={{ opacity }}
         to={{
           pathname: `/ingredients/${ingredient._id}`,
-          state: { background: location }
+          state: { background: location },
         }}
       >
         <Counter count={counter()} size="default" />
@@ -81,5 +80,4 @@ export default function IngredientCard({ ingredient }) {
 
 IngredientCard.propTypes = {
   ingredient: ingredientType.isRequired,
-  onClick: PropTypes.func.isRequired,
 };

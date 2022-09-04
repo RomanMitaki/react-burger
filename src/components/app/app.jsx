@@ -18,7 +18,6 @@ import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route.jsx";
 import { getUser } from "../../services/actions/auth.js";
 import Modal from "../modal/modal.jsx";
-import { CLEAR_INGREDIENT_DETAILS } from "../../services/actions/ingredient-details.js";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
 
 export default function App() {
@@ -29,25 +28,19 @@ export default function App() {
   useEffect(() => {
     dispatch(getIngredients());
     dispatch(getUser());
+    history.replace({ state: null });
   }, []);
 
-  const modalStatus = useSelector((store) => store.ingredientDetails.isOpened);
-  const ingredientDetails = useSelector(
-    (store) => store.ingredientDetails.ingredientDetails
-  );
-
   const onClose = () => {
-    dispatch({ type: CLEAR_INGREDIENT_DETAILS });
+    history.goBack();
   };
 
-  let background = location.state && location.state.background;
-  console.log(location);
-  console.log(background);
+  const background = location.state && location.state.background;
 
   return (
     <>
       <AppHeader />
-      <Switch>
+      <Switch location={background || location}>
         <Route path="/" exact>
           <DndProvider backend={HTML5Backend}>
             <Home />
@@ -77,8 +70,8 @@ export default function App() {
       </Switch>
       {background && (
         <Route path="/ingredients/:id">
-          <Modal onClose={onClose} isOpened={modalStatus}>
-            <IngredientDetails data={ingredientDetails} />
+          <Modal onClose={onClose} isOpened={true}>
+            <IngredientDetails />
           </Modal>
         </Route>
       )}

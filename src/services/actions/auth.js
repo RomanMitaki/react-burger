@@ -72,7 +72,7 @@ export function regSignIn(regData) {
           let accessToken = res.accessToken.split("Bearer ")[1];
           let refreshToken = res.refreshToken;
           if (accessToken && refreshToken) {
-            setCookie("accessToken", accessToken);
+            setCookie("accessToken", accessToken, { "max-age": 1200 });
             setCookie("refreshToken", refreshToken);
           }
 
@@ -150,7 +150,7 @@ export function getUser() {
       refreshTokenRequest().then((res) => {
         let accessToken = res.accessToken.split("Bearer ")[1];
         if (accessToken) {
-          setCookie("accessToken", accessToken);
+          setCookie("accessToken", accessToken, { "max-age": 1200 });
         }
         getUserInfo()
           .then((res) => {
@@ -205,7 +205,7 @@ export function updateUserData(updateData) {
       refreshTokenRequest().then((res) => {
         let accessToken = res.accessToken.split("Bearer ")[1];
         if (accessToken) {
-          setCookie("accessToken", accessToken);
+          setCookie("accessToken", accessToken, { "max-age": 1200 });
         }
         updateUserInfo(updateData)
           .then((res) => {
