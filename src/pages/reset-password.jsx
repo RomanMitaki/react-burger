@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./reset-password.module.css";
 import {
   Input,
@@ -8,28 +7,25 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import { resetPasswordRequest } from "../utils/api";
 import { useSelector } from "react-redux";
+import { useForm } from "../services/hooks/useForm";
 
 export function ResetPassword() {
-  const auth = useSelector(
-    (state) => state.auth.auth
+  const { values, handleChange, setValues } = useForm({});
+  const auth = useSelector((state) => state.auth.auth);
+  const updatePasswordStatus = useSelector(
+    (state) => state.auth.updatePasswordStatus
   );
-  const updatePasswordStatus = useSelector((state) => state.auth.updatePasswordStatus);
-  const [password, setPassword] = useState({
-    password: "",
-    verCode: "",
-    result: false,
-  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    resetPasswordRequest(password).then((res) =>
-      setPassword({ ...password, result: res.success })
+    resetPasswordRequest(values).then((res) =>
+      setValues({ ...values, result: res.success })
     );
 
-    setPassword({ ...password, password: "", verCode: "" });
+    setValues({ ...values, password: "", verCode: "" });
   };
 
-  if (password.result === true) {
+  if (values.result === true) {
     return <Redirect to="/login" />;
   }
 
@@ -47,20 +43,16 @@ export function ResetPassword() {
         <form className={styles.form} method="post" onSubmit={handleSubmit}>
           <h1 className={`${styles.header}`}>Восстановление пароля</h1>
           <PasswordInput
-            value={password.password}
+            value={values.password}
             name={"password"}
-            onChange={(event) =>
-              setPassword({ ...password, password: event.target.value })
-            }
+            onChange={handleChange}
           />
           <Input
             placeholder="Введите код из письма"
             type="text"
-            value={password.checkCode}
+            value={values.checkCode}
             name={"verCode"}
-            onChange={(event) =>
-              setPassword({ ...password, verCode: event.target.value })
-            }
+            onChange={handleChange}
           />
           <Button>Сохранить</Button>
         </form>

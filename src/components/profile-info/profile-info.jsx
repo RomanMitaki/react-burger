@@ -3,48 +3,30 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserData } from "../../services/actions/auth";
+import { useForm } from "../../services/hooks/useForm";
 
 export function ProfileInfo() {
+  const { values, handleChange, setValues } = useForm({});
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth.auth);
   const { name: storeName, email: storeEmail } = useSelector(
     (state) => state.auth.userInfo
   );
-  const [userInfo, setUserInfo] = useState({
-    holderEmail: "Логин",
-    password: "",
-    holderName: "Имя",
-    email: "",
-    name: "",
-  });
 
   useEffect(() => {
-    setUserInfo({
-      ...userInfo,
+    setValues({
+      ...values,
       holderEmail: storeEmail,
       holderName: storeName,
     });
   }, [storeName, storeEmail]);
 
-  useEffect(() => {
-    if (!auth) {
-      setUserInfo({
-        holderEmail: "Логин",
-        password: "",
-        holderName: "Имя",
-        email: "",
-        name: "",
-      });
-    }
-  }, [auth]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUserData(userInfo));
-    setUserInfo({
+    dispatch(updateUserData(values));
+    setValues({
       holderEmail: storeEmail,
       password: "",
       holderName: storeName,
@@ -54,7 +36,7 @@ export function ProfileInfo() {
   };
 
   const declineUpdate = () => {
-    setUserInfo({
+    setValues({
       holderEmail: storeEmail,
       password: "",
       holderName: storeName,
@@ -67,39 +49,34 @@ export function ProfileInfo() {
     <form className={styles.form} onSubmit={handleSubmit}>
       <Input
         type={"text"}
-        placeholder={userInfo.holderName}
+        placeholder={values.holderName}
         icon={"EditIcon"}
-        value={userInfo.name}
+        value={values.name}
         name={"name"}
-        onChange={(event) =>
-          setUserInfo({ ...userInfo, name: event.target.value })
-        }
+        onChange={handleChange}
       />
 
       <Input
         type={"email"}
-        placeholder={userInfo.holderEmail}
+        placeholder={values.holderEmail}
         icon={"EditIcon"}
-        value={userInfo.email}
+        value={values.email}
         name={"email"}
-        onChange={(event) =>
-          setUserInfo({ ...userInfo, email: event.target.value })
-        }
+        onChange={handleChange}
       />
 
       <Input
         type={"password"}
         placeholder={"Пароль"}
         icon={"EditIcon"}
-        value={userInfo.password}
+        value={values.password}
         name={"password"}
-        onChange={(event) =>
-          setUserInfo({ ...userInfo, password: event.target.value })
-        }
+        onChange={handleChange}
       />
-      {userInfo.email.length > 0 &&
-        userInfo.name.length > 0 &&
-        userInfo.password.length > 0 && (
+      {values.email &&
+        values.email.length > 0 &&
+        values.name.length > 0 &&
+        values.password.length > 0 && (
           <div className={styles.btns__container}>
             <Button
               type="secondary"

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./login.module.css";
 import {
@@ -8,22 +7,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from "react-router-dom";
 import { signIn } from "../services/actions/auth";
+import { useForm } from "../services/hooks/useForm";
 
 export function Login() {
+  const { values, handleChange, setValues } = useForm({});
   const dispatch = useDispatch();
-  const auth = useSelector(
-    (state) => state.auth.auth
-  );
-  
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-  });
+  const auth = useSelector((state) => state.auth.auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signIn(loginData));
-    setLoginData({ email: "", password: "" });
+    dispatch(signIn(values));
+    setValues({ email: "", password: "" });
   };
 
   if (auth) {
@@ -38,17 +32,13 @@ export function Login() {
 
           <EmailInput
             name={"email"}
-            value={loginData.email}
-            onChange={(event) =>
-              setLoginData({ ...loginData, email: event.target.value })
-            }
+            value={values.email}
+            onChange={handleChange}
           />
           <PasswordInput
-            value={loginData.password}
+            value={values.password}
             name={"password"}
-            onChange={(event) =>
-              setLoginData({ ...loginData, password: event.target.value })
-            }
+            onChange={handleChange}
           />
           <Button>Войти</Button>
         </form>

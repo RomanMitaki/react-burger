@@ -35,19 +35,29 @@ export default function BurgerIngredients(props) {
       <h1 className="text text_type_main-large">{props.text}</h1>
       <ul className={`${styles.tab_bar} mt-5 mb-10`}>
         <li className={styles.bar_element}>
-          <Tab value="one" active={current === "one"}>
-            Булки
-          </Tab>
+          <a href="#buns" className={styles.bar_link}>
+            <Tab value="one" active={current === "one"} onClick={setCurrent}>
+              Булки
+            </Tab>
+          </a>
         </li>
         <li className={styles.bar_element}>
-          <Tab value="two" active={current === "two"}>
-            Соусы
-          </Tab>
+          <a href="#sauce" className={styles.bar_link}>
+            <Tab value="two" active={current === "two"} onClick={setCurrent}>
+              Соусы
+            </Tab>
+          </a>
         </li>
         <li className={styles.bar_element}>
-          <Tab value="three" active={current === "three"}>
-            Начинки
-          </Tab>
+          <a href="#main" className={styles.bar_link}>
+            <Tab
+              value="three"
+              active={current === "three"}
+              onClick={setCurrent}
+            >
+              Начинки
+            </Tab>
+          </a>
         </li>
       </ul>
       <div className={styles.ingredients__container}>

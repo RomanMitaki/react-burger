@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./register.module.css";
 import {
@@ -9,22 +8,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from "react-router-dom";
 import { regSignIn } from "../services/actions/auth";
-
+import { useForm } from "../services/hooks/useForm";
 
 export function Register() {
+  const { values, handleChange, setValues } = useForm({});
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth.auth);
 
-  const [regFormData, setRegFormData] = useState({
-    email: "",
-    password: "",
-    name: "",
-  });
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(regSignIn(regFormData));
-    setRegFormData({ email: "", password: "", name: "" });
+    dispatch(regSignIn(values));
+    setValues({ email: "", password: "", name: "" });
   };
 
   if (auth) {
@@ -38,26 +32,20 @@ export function Register() {
           <h1 className={`${styles.header}`}>Регистрация</h1>
           <Input
             placeholder={"Имя"}
-            value={regFormData.name}
+            value={values.name}
             type={"text"}
             name={"name"}
-            onChange={(event) =>
-              setRegFormData({ ...regFormData, name: event.target.value })
-            }
+            onChange={handleChange}
           />
           <EmailInput
             name={"email"}
-            value={regFormData.email}
-            onChange={(event) =>
-              setRegFormData({ ...regFormData, email: event.target.value })
-            }
+            value={values.email}
+            onChange={handleChange}
           />
           <PasswordInput
-            value={regFormData.password}
+            value={values.password}
             name={"password"}
-            onChange={(event) =>
-              setRegFormData({ ...regFormData, password: event.target.value })
-            }
+            onChange={handleChange}
           />
           <Button>Зарегистрироваться</Button>
         </form>

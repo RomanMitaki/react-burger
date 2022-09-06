@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./forgot-password.module.css";
 import {
   EmailInput,
@@ -7,20 +6,20 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import { updatePassword } from "../services/actions/auth";
 import { useSelector, useDispatch } from "react-redux";
+import { useForm } from "../services/hooks/useForm";
 
 export function ForgotPassword() {
+  const { values, handleChange, setValues } = useForm({});
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth.auth);
-  const updatePasswordStatus = useSelector((state) => state.auth.updatePasswordStatus);
-  const [email, setEmail] = useState({
-    email: "",
-    result: false,
-  });
+  const updatePasswordStatus = useSelector(
+    (state) => state.auth.updatePasswordStatus
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updatePassword(email));
-    setEmail({ ...email, email: "" });
+    dispatch(updatePassword(values));
+    setValues({ ...values, email: "" });
   };
 
   if (updatePasswordStatus) {
@@ -38,10 +37,8 @@ export function ForgotPassword() {
           <h1 className={`${styles.header}`}>Восстановление пароля</h1>
           <EmailInput
             name={"email"}
-            value={email.email}
-            onChange={(event) =>
-              setEmail({ ...email, email: event.target.value })
-            }
+            value={values.email}
+            onChange={handleChange}
           />
           <Button>Восстановить</Button>
         </form>

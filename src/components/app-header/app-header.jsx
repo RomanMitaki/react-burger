@@ -7,6 +7,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import HeaderNavElement from "../header-nav-element/header-nav-element.jsx";
+import { Link } from "react-router-dom";
 
 export default function AppHeader() {
   return (
@@ -29,9 +30,9 @@ export default function AppHeader() {
           </HeaderNavElement>
         </ul>
       </nav>
-      <div className={styles.logo__container}>
+      <Link to={'/'} className={styles.logo__container}>
         <Logo />
-      </div>
+      </Link>
       <nav>
         <ul className={`${styles.nav__list}`}>
           <HeaderNavElement
