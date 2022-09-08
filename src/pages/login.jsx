@@ -5,13 +5,14 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { signIn } from "../services/actions/auth";
 import { useForm } from "../services/hooks/useForm";
 
 export function Login() {
   const { values, handleChange, setValues } = useForm({});
   const dispatch = useDispatch();
+  const location = useLocation();
   const auth = useSelector((state) => state.auth.auth);
 
   const handleSubmit = (e) => {
@@ -21,7 +22,7 @@ export function Login() {
   };
 
   if (auth) {
-    return <Redirect to="/" />;
+    return <Redirect to={location?.state?.from || '/'} />;
   }
 
   return (
