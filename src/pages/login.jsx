@@ -22,7 +22,7 @@ export function Login() {
   };
 
   if (auth) {
-    return <Redirect to={location?.state?.from || '/'} />;
+    return <Redirect to={location?.state?.from || "/"} />;
   }
 
   return (
@@ -33,11 +33,11 @@ export function Login() {
 
           <EmailInput
             name={"email"}
-            value={values.email}
+            value={values.email || ""}
             onChange={handleChange}
           />
           <PasswordInput
-            value={values.password}
+            value={values.password || ""}
             name={"password"}
             onChange={handleChange}
           />

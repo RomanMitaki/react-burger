@@ -32,18 +32,18 @@ export function Register() {
           <h1 className={`${styles.header}`}>Регистрация</h1>
           <Input
             placeholder={"Имя"}
-            value={values.name}
+            value={values.name || ""}
             type={"text"}
             name={"name"}
             onChange={handleChange}
           />
           <EmailInput
             name={"email"}
-            value={values.email}
+            value={values.email || ""}
             onChange={handleChange}
           />
           <PasswordInput
-            value={values.password}
+            value={values.password || ""}
             name={"password"}
             onChange={handleChange}
           />

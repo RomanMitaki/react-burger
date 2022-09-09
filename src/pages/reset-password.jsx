@@ -43,14 +43,14 @@ export function ResetPassword() {
         <form className={styles.form} method="post" onSubmit={handleSubmit}>
           <h1 className={`${styles.header}`}>Восстановление пароля</h1>
           <PasswordInput
-            value={values.password}
+            value={values.password || ""}
             name={"password"}
             onChange={handleChange}
           />
           <Input
             placeholder="Введите код из письма"
             type="text"
-            value={values.checkCode}
+            value={values.verCode || ""}
             name={"verCode"}
             onChange={handleChange}
           />

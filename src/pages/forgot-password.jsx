@@ -37,7 +37,7 @@ export function ForgotPassword() {
           <h1 className={`${styles.header}`}>Восстановление пароля</h1>
           <EmailInput
             name={"email"}
-            value={values.email}
+            value={values.email || ""}
             onChange={handleChange}
           />
           <Button>Восстановить</Button>

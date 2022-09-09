@@ -49,18 +49,18 @@ export function ProfileInfo() {
     <form className={styles.form} onSubmit={handleSubmit}>
       <Input
         type={"text"}
-        placeholder={values.holderName}
+        placeholder={values.holderName || ""}
         icon={"EditIcon"}
-        value={values.name}
+        value={values.name || ""}
         name={"name"}
         onChange={handleChange}
       />
 
       <Input
         type={"email"}
-        placeholder={values.holderEmail}
+        placeholder={values.holderEmail || ""}
         icon={"EditIcon"}
-        value={values.email}
+        value={values.email || ""}
         name={"email"}
         onChange={handleChange}
       />
@@ -69,11 +69,13 @@ export function ProfileInfo() {
         type={"password"}
         placeholder={"Пароль"}
         icon={"EditIcon"}
-        value={values.password}
+        value={values.password || ""}
         name={"password"}
         onChange={handleChange}
       />
       {values.email &&
+        values.name &&
+        values.password &&
         values.email.length > 0 &&
         values.name.length > 0 &&
         values.password.length > 0 && (
