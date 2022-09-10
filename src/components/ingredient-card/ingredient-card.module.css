@@ -11,6 +11,7 @@
   background-color: #131316;
   color: #f2f2f3;
   overflow: hidden;
+  text-decoration: none;
 }
 
 .card__img {
@@ -35,5 +36,5 @@
 }
 
 .card__name {
-  text-align: top;
+  text-align: center;
 }

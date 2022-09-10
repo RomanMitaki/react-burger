@@ -11,6 +11,7 @@ import {
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { rootReducer } from "./services/index";
+import { BrowserRouter as Router } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -27,6 +28,8 @@ const root = createRoot(container!);
 
 root.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Provider>
 );

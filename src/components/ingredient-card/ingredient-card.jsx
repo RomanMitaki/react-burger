@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./ingredient-card.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -7,11 +6,13 @@ import ingredientType from "../../utils/types.js";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
+import { useLocation, Link } from "react-router-dom";
 
-export default function IngredientCard({ ingredient, onClick }) {
+export default function IngredientCard({ ingredient }) {
   const constructorData = useSelector(
     (store) => store.burgerConstructor.currentIngredients
   );
+  const location = useLocation();
 
   const [{ opacity }, dragRef] = useDrag({
     type: "ingredient",
@@ -48,11 +49,14 @@ export default function IngredientCard({ ingredient, onClick }) {
 
   return (
     <>
-      <button
+      <Link
         className={styles.card__container}
-        onClick={onClick}
         ref={dragRef}
         style={{ opacity }}
+        to={{
+          pathname: `/ingredients/${ingredient._id}`,
+          state: { background: location },
+        }}
       >
         <Counter count={counter()} size="default" />
         <img
@@ -69,12 +73,11 @@ export default function IngredientCard({ ingredient, onClick }) {
         <h3 className={`${styles.card__name} text text_type_main-default`}>
           {ingredient.name}
         </h3>
-      </button>
+      </Link>
     </>
   );
 }
 
 IngredientCard.propTypes = {
   ingredient: ingredientType.isRequired,
-  onClick: PropTypes.func.isRequired,
 };

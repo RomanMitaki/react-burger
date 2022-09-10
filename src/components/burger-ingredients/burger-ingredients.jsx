@@ -4,12 +4,6 @@ import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../ingredient-card/ingredient-card.jsx";
-import Modal from "../modal/modal.jsx";
-import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
-import {
-  SET_INGREDIENT_DETAILS,
-  CLEAR_INGREDIENT_DETAILS,
-} from "../../services/actions/ingredient-details";
 import { useInView } from "react-intersection-observer";
 
 export default function BurgerIngredients(props) {
@@ -32,22 +26,9 @@ export default function BurgerIngredients(props) {
     handleActiveTab();
   }, [inViewBuns, inViewSauce, inViewMain]);
 
-  const dispatch = useDispatch();
   const ingredients = useSelector(
     (store) => store.burgerIngredients.ingredients
   );
-  const modalStatus = useSelector((store) => store.ingredientDetails.isOpened);
-  const ingredientDetails = useSelector(
-    (store) => store.ingredientDetails.ingredientDetails
-  );
-
-  const onClose = () => {
-    dispatch({ type: CLEAR_INGREDIENT_DETAILS });
-  };
-
-  const setIngredientDetails = (ingredient) => {
-    dispatch({ type: SET_INGREDIENT_DETAILS, item: ingredient });
-  };
 
   return (
     <section className={`${styles.section} mt-10`}>
@@ -89,10 +70,7 @@ export default function BurgerIngredients(props) {
               (ingredient) =>
                 ingredient.type === "bun" && (
                   <li key={ingredient._id} className="mb-10">
-                    <IngredientCard
-                      ingredient={ingredient}
-                      onClick={() => setIngredientDetails(ingredient)}
-                    />
+                    <IngredientCard ingredient={ingredient} />
                   </li>
                 )
             )}
@@ -107,10 +85,7 @@ export default function BurgerIngredients(props) {
               (ingredient) =>
                 ingredient.type === "sauce" && (
                   <li key={ingredient._id} className="mb-8">
-                    <IngredientCard
-                      ingredient={ingredient}
-                      onClick={() => setIngredientDetails(ingredient)}
-                    />
+                    <IngredientCard ingredient={ingredient} />
                   </li>
                 )
             )}
@@ -125,19 +100,13 @@ export default function BurgerIngredients(props) {
               (ingredient) =>
                 ingredient.type === "main" && (
                   <li key={ingredient._id} className="mb-10">
-                    <IngredientCard
-                      ingredient={ingredient}
-                      onClick={() => setIngredientDetails(ingredient)}
-                    />
+                    <IngredientCard ingredient={ingredient} />
                   </li>
                 )
             )}
           </ul>
         </div>
       </div>
-      <Modal onClose={onClose} isOpened={modalStatus}>
-        <IngredientDetails data={ingredientDetails} />
-      </Modal>
     </section>
   );
 }
