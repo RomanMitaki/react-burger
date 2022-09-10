@@ -126,6 +126,14 @@ export function getUser() {
     dispatch({
       type: GET_USER_REQUEST,
     });
+    if (
+      getCookie("accessToken") === undefined &&
+      getCookie("refreshToken") === undefined
+    ) {
+      dispatch({
+        type: GET_USER_FAILED,
+      });
+    }
     if (getCookie("accessToken") !== undefined) {
       getUserInfo()
         .then((res) => {

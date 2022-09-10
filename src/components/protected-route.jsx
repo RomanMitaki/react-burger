@@ -7,6 +7,7 @@ export function ProtectedRoute({ children, ...rest }) {
   const auth = useSelector((state) => state.auth.auth);
   const location = useLocation();
   const cookie = getCookie("accessToken") !== undefined;
+ 
 
   return (
     <Route
