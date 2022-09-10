@@ -13,6 +13,7 @@ import {
   Page404,
   Profile,
   IngredientDetailsPage,
+  Feed,
 } from "../../pages";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route.jsx";
@@ -63,6 +64,9 @@ export default function App() {
         </ProtectedRoute>
         <Route path="/ingredients/:id" exact>
           <IngredientDetailsPage />
+        </Route>
+        <Route path="/feed" exact>
+          <Feed />
         </Route>
         <Route>
           <Page404 />
