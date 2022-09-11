@@ -1,5 +1,5 @@
 import styles from "./profile-navigation.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../services/actions/auth";
 
@@ -7,11 +7,13 @@ import { deleteCookie } from "../../utils/utils";
 
 export function ProfileNavigation() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const signOut = () => {
     dispatch(logout());
     deleteCookie("refreshToken");
     deleteCookie("accessToken");
+    history.go('/login');
   };
 
   return (

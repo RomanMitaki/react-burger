@@ -1,6 +1,18 @@
 .section {
-    width: 600px;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-  }
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.feeditems__container {
+  height: 70vh;
+  overflow-y: scroll;
+  scrollbar-color: #8585ad #2f2f37;
+  scrollbar-width: initial;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
