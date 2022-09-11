@@ -6,7 +6,6 @@ export function Feed() {
   return (
     <div className={styles.page}>
       <main className={styles.content}>
-       
         <OrdersFeed />
         <OrdersInfo />
       </main>

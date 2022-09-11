@@ -1,6 +1,36 @@
 .section {
-    width: 600px;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-  }
+  width: 580px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-top: 100px;
+}
+
+.status__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 52px;
+}
+
+.status__container_orders {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  width: 272px;
+}
+
+.status__text {
+  padding: 0;
+  margin: 0 0 24px 0;
+}
+
+.orders__list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
