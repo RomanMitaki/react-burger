@@ -14,6 +14,7 @@ import {
   Profile,
   IngredientDetailsPage,
   Feed,
+  FeedOrderId,
 } from "../../pages";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route.jsx";
@@ -68,16 +69,26 @@ export default function App() {
         <Route path="/feed" exact>
           <Feed />
         </Route>
+        <Route path="/feed/:id" exact>
+          <FeedOrderId />
+        </Route>
         <Route>
           <Page404 />
         </Route>
       </Switch>
       {background && (
-        <Route path="/ingredients/:id">
-          <Modal onClose={onClose} isOpened={true}>
-            <IngredientDetails />
-          </Modal>
-        </Route>
+        <Switch>
+          <Route path="/ingredients/:id">
+            <Modal onClose={onClose} isOpened={true}>
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <Route path="/feed/:id">
+            <Modal onClose={onClose} isOpened={true}>
+              <FeedOrderId />
+            </Modal>
+          </Route>
+        </Switch>
       )}
     </>
   );

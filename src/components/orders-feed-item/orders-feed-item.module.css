@@ -9,6 +9,8 @@
   border-radius: 40px;
   margin-top: 20px;
   box-sizing: border-box;
+  text-decoration: none;
+  color: aliceblue;
 }
 
 .item__container {

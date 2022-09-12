@@ -1,10 +1,11 @@
 import styles from "./orders-feed-item.module.css";
 import ItemImg from "../item-img/item-img";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link } from "react-router-dom";
 
 export default function OrdersFeedItem() {
   return (
-    <div className={styles.container}>
+    <Link to={"/feed/:id"} className={styles.container}>
       <div
         className={`${styles.item__container} ${styles.item__container_upper}`}
       >
@@ -57,6 +58,6 @@ export default function OrdersFeedItem() {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

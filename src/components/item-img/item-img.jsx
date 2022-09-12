@@ -9,7 +9,7 @@ export default function ItemImg() {
   return (
     <div className={styles.img__border_gradient}>
       <div className={styles.img__container}>
-        <img className={styles.img} src={ingredients[8].image} alt="#" />
+        <img className={styles.img} src={ingredients[9].image} alt="#" />
       </div>
     </div>
   );
