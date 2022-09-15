@@ -3,17 +3,13 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OrdersFeed from "../components/orders-feed/orders-feed";
 import OrdersInfo from "../components/orders-info/orders-info";
-import {
-  WS_CONNECTION_START,
-  wsGetMessage,
-} from "../services/actions/wsActions";
+import { WS_CONNECTION_START, wsConnectionStart } from "../services/actions/wsActions";
 
 export function Feed() {
   const dispatch = useDispatch();
-  const orders = useSelector((store) => store.wsConnection.orders);
-  console.log(orders);
+  
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START });
+    dispatch(wsConnectionStart());
   }, []);
 
   return (

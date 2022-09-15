@@ -43,3 +43,9 @@ export const wsConnectionAuth = () => {
     type: WS_CONNECTION_AUTH,
   };
 };
+
+export const wsConnectionStart = () => {
+  return {
+    type: WS_CONNECTION_START,
+  };
+}; 

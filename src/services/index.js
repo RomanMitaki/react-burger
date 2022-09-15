@@ -10,5 +10,5 @@ export const rootReducer = combineReducers({
   burgerIngredients: burgerIngredientsReducer,
   burgerConstructor: burgerConstructorReducer,
   orderDetails: orderDetailsReducer,
-  wsConnection: wsReducer,
+  wsOrders: wsReducer,
 });

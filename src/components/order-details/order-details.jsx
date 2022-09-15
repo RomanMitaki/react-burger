@@ -1,10 +1,9 @@
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./order-details.module.css";
 
 
 export default function OrderDetails() {
-  const dispatch = useDispatch();
+  
   const { orderId, statusIcon, status } = useSelector(
     (store) => store.orderDetails.orderDetails
   );
