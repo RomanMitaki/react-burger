@@ -4,11 +4,10 @@ import OrdersFeedItem from "../orders-feed-item/orders-feed-item";
 
 export default function OrdersFeed() {
   const orders = useSelector((store) => store.wsOrders.orders);
-  console.log(orders);
 
-if (!orders) {
-  return null
-}
+  if (!orders) {
+    return null;
+  }
 
   return (
     <section className={`${styles.section} mt-10`}>
@@ -16,7 +15,7 @@ if (!orders) {
       <ul className={`${styles.feeditems__container}`}>
         {orders.map((order) => (
           <li key={order._id}>
-            <OrdersFeedItem order={order} />
+            <OrdersFeedItem order={order} display={"none"} />
           </li>
         ))}
       </ul>

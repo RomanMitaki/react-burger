@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OrdersFeed from "../components/orders-feed/orders-feed";
 import OrdersInfo from "../components/orders-info/orders-info";
-import { WS_CONNECTION_START, wsConnectionStart } from "../services/actions/wsActions";
+import { wsConnectionStart } from "../services/actions/wsActions";
 
 export function Feed() {
   const dispatch = useDispatch();

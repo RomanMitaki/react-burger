@@ -1,5 +1,6 @@
 import styles from "./item-img.module.css";
-import { useSelector } from "react-redux";
+
+
 
 export default function ItemImg({ingredient}) {
 

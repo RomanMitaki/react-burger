@@ -70,7 +70,7 @@ export default function App() {
           <Feed />
         </Route>
         <Route path="/feed/:id" exact>
-          <FeedOrderId />
+          <FeedOrderId textAlign={"center"} />
         </Route>
         <Route>
           <Page404 />
@@ -85,7 +85,7 @@ export default function App() {
           </Route>
           <Route path="/feed/:id">
             <Modal onClose={onClose} isOpened={true}>
-              <FeedOrderId />
+              <FeedOrderId textAlign={"left"} />
             </Modal>
           </Route>
         </Switch>
