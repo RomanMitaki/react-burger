@@ -6,13 +6,14 @@ import { useSelector } from "react-redux";
 import { nanoid } from "nanoid";
 import { useMemo } from "react";
 import { formatDate } from "../../utils/format-date";
+import { formatOrderStatus } from "../../utils/format-order-status";
 
 export default function OrdersFeedItem({ order, display }) {
   const location = useLocation();
   const ingredients = useSelector(
     (store) => store.burgerIngredients.ingredients
   );
-
+//создаем массив ингредиентов конкретного заказа для дальнейшей отрисовки изображений
   const selectedIngredients = order.ingredients.reduce((acc, ingredient) => {
     for (let i = 0; i < ingredients.length; i++) {
       if (ingredients[i]._id === ingredient) {
@@ -34,7 +35,6 @@ export default function OrdersFeedItem({ order, display }) {
   const totalPrice = useMemo(() => {
     return selectedIngredients.reduce((acc, element) => {
       acc += element.price;
-
       return acc;
     }, 0);
   }, [selectedIngredients]);
@@ -57,7 +57,7 @@ export default function OrdersFeedItem({ order, display }) {
         className={`${styles.item__status} text text_type_main-default`}
         style={{ display: `${display}` }}
       >
-        {`${order.status}`}
+        {`${formatOrderStatus(order.status)}`}
       </p>
       <div
         className={`${styles.item__container} ${styles.item__container_bottom}`}

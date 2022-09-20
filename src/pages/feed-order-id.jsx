@@ -6,17 +6,17 @@ import { nanoid } from "nanoid";
 import { useParams } from "react-router-dom";
 import { formatDate } from "../utils/format-date";
 import { useMemo } from "react";
-import { wsConnectionStart } from "../services/actions/wsActions";
+import { formatOrderStatus } from "../utils/format-order-status";
+import { useHistory, useLocation} from "react-router-dom";
+
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+
+
 
 export function FeedOrderId({ textAlign }) {
- //const dispatch = useDispatch();
- // useEffect(() => {
- //   dispatch(wsConnectionStart());
- // }, []);
+
   const orders = useSelector((store) => store.wsOrders.orders);
-  //console.log(orders);
+ 
   const ingredients = useSelector(
     (store) => store.burgerIngredients.ingredients
   );
@@ -24,6 +24,9 @@ export function FeedOrderId({ textAlign }) {
 
   const order = orders?.find(({ _id }) => _id === id);
 
+  
+  //создаем объект, где ключ - _id ингредиента, а значение - количество
+  //его повторений в массиве, возвращаемом сервером
   const countedOrderIngredients = order.ingredients.reduce(
     (acc, ingredient) => {
       if (!acc[ingredient]) {
@@ -35,9 +38,11 @@ export function FeedOrderId({ textAlign }) {
     },
     {}
   );
-
+  //создаем массив из уникальных ингредиентов
   const filteredOrderIngredients = Object.keys(countedOrderIngredients);
 
+  //создаем массив из уникальных ингредиентов для дальнейшей отрисовки,
+  //добавляем в него количество повторов каждого ингредиента
   const selectedIngredients = filteredOrderIngredients.reduce(
     (acc, ingredient) => {
       for (let i = 0; i < ingredients.length; i++) {
@@ -57,7 +62,7 @@ export function FeedOrderId({ textAlign }) {
     },
     []
   );
-  console.log(selectedIngredients);
+
   const totalPrice = useMemo(() => {
     return selectedIngredients.reduce((acc, element) => {
       acc += element.price * element.quantity;
@@ -65,8 +70,6 @@ export function FeedOrderId({ textAlign }) {
       return acc;
     }, 0);
   }, [selectedIngredients]);
-
-  
 
   if (!order) {
     return null;
@@ -83,8 +86,16 @@ export function FeedOrderId({ textAlign }) {
       <h2 className={`${styles.order__header} text text_type_main-medium`}>
         {`${order.name}`}
       </h2>
-      <p className={`${styles.order__status} text text_type_main-default`}>
-        {`${order.status}`}
+      <p
+        className={`${styles.order__status} text text_type_main-default  ${
+          order.status === "done"
+            ? styles.order__status_done
+            : order.status === "cancel"
+            ? styles.order__status_cancel
+            : ""
+        }`}
+      >
+        {`${formatOrderStatus(order.status)}`}
       </p>
       <p className={`${styles.order__header} text text_type_main-medium`}>
         Состав:

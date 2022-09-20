@@ -13,6 +13,7 @@ export function Profile() {
             <Route path='/profile'>
               <ProfileInfo />
             </Route>
+           
           </Switch>
         </Route>
       </main>
