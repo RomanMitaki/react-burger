@@ -1,30 +1,30 @@
 import styles from "./feed-order-id.module.css";
 import OrderIdFeedItem from "../components/order-id-feed-item/order-id-feed-item";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { nanoid } from "nanoid";
-import { useParams } from "react-router-dom";
+import { useParams, useRouteMatch } from "react-router-dom";
 import { formatDate } from "../utils/format-date";
 import { useMemo } from "react";
 import { formatOrderStatus } from "../utils/format-order-status";
-import { useHistory, useLocation} from "react-router-dom";
-
-import { useDispatch } from "react-redux";
-
-
+import {
+  wsConnectionStart,
+  wsConnectionClosed,
+} from "../services/actions/wsActions";
+import { useEffect } from "react";
 
 export function FeedOrderId({ textAlign }) {
-
+  const { id } = useParams();
+  const { path } = useRouteMatch();
+  const dispatch = useDispatch();
+console.log(path);
   const orders = useSelector((store) => store.wsOrders.orders);
- 
   const ingredients = useSelector(
     (store) => store.burgerIngredients.ingredients
   );
-  const { id } = useParams();
-
+console.log(orders);
   const order = orders?.find(({ _id }) => _id === id);
 
-  
   //создаем объект, где ключ - _id ингредиента, а значение - количество
   //его повторений в массиве, возвращаемом сервером
   const countedOrderIngredients = order.ingredients.reduce(
@@ -71,12 +71,24 @@ export function FeedOrderId({ textAlign }) {
     }, 0);
   }, [selectedIngredients]);
 
-  if (!order) {
-    return null;
-  }
+  useEffect(() => {
+    if (!orders) {
+      if (path.includes("feed")) {
+        dispatch(wsConnectionStart());
+      }
+      return () => {
+        if (path.includes("feed")) {
+          dispatch(wsConnectionClosed());
+        }
+      };
+    }
+  }, [dispatch, order, path]);
+
+  
 
   return (
-    <div className={styles.order__container}>
+   <>
+    {order && (<div className={styles.order__container}>
       <p
         className={`${styles.order__orderId} text text_type_digits-default`}
         style={{ textAlign: `${textAlign}` }}
@@ -121,6 +133,6 @@ export function FeedOrderId({ textAlign }) {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-    </div>
+    </div>)}</>
   );
 }

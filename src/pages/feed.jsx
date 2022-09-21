@@ -3,22 +3,21 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OrdersFeed from "../components/orders-feed/orders-feed";
 import OrdersInfo from "../components/orders-info/orders-info";
-import { wsConnectionStart } from "../services/actions/wsActions";
-import { useHistory, useLocation } from "react-router-dom";
-import { Switch, Route } from "react-router-dom";
+import {
+  wsConnectionStart,
+  wsConnectionClosed,
+} from "../services/actions/wsActions";
+
 
 export function Feed() {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
-  
+
   useEffect(() => {
     dispatch(wsConnectionStart());
-   dispatch(wsConnectionStart());
-  }, []);
-
- 
-
+    return () => {
+      dispatch(wsConnectionClosed());
+    };
+  }, [dispatch]);
 
   return (
     <div className={styles.page}>
