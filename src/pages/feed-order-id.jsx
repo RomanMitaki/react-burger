@@ -15,24 +15,22 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 export function FeedOrderId({ textAlign }) {
-   const { id } = useParams();
+  const { id } = useParams();
   const { path } = useRouteMatch();
   const dispatch = useDispatch();
-  //const history = useHistory();
-  //console.log(history);
-  
+
   const orders = useSelector((store) => store.wsOrders.orders);
-//  const isConnected = useSelector((store) => store.wsOrders.wsConnected);
-  
+  const isConnected = useSelector((store) => store.wsOrders.wsConnected);
+
   const ingredients = useSelector(
     (store) => store.burgerIngredients.ingredients
   );
 
   const order = orders?.find(({ _id }) => _id === id);
- // console.log(isConnected);
-  
+  console.log(order);
+
   useEffect(() => {
-    if (!orders) {
+    if (!isConnected) {
       if (path.includes("feed")) {
         dispatch(wsConnectionStart());
       }
@@ -46,7 +44,7 @@ export function FeedOrderId({ textAlign }) {
 
   //создаем объект, где ключ - _id ингредиента, а значение - количество
   //его повторений в массиве, возвращаемом сервером
-  const countedOrderIngredients = order.ingredients.reduce(
+  const countedOrderIngredients = order?.ingredients.reduce(
     (acc, ingredient) => {
       if (!acc[ingredient]) {
         acc[ingredient] = 1;
@@ -58,11 +56,14 @@ export function FeedOrderId({ textAlign }) {
     {}
   );
   //создаем массив из уникальных ингредиентов
-  const filteredOrderIngredients = Object.keys(countedOrderIngredients);
+
+  const filteredOrderIngredients = countedOrderIngredients
+    ? Object.keys(countedOrderIngredients)
+    : null;
 
   //создаем массив из уникальных ингредиентов для дальнейшей отрисовки,
   //добавляем в него количество повторов каждого ингредиента
-  const selectedIngredients = filteredOrderIngredients.reduce(
+  const selectedIngredients = filteredOrderIngredients?.reduce(
     (acc, ingredient) => {
       for (let i = 0; i < ingredients.length; i++) {
         if (ingredients[i]._id === ingredient) {
@@ -83,14 +84,12 @@ export function FeedOrderId({ textAlign }) {
   );
 
   const totalPrice = useMemo(() => {
-    return selectedIngredients.reduce((acc, element) => {
+    return selectedIngredients?.reduce((acc, element) => {
       acc += element.price * element.quantity;
 
       return acc;
     }, 0);
   }, [selectedIngredients]);
-
-  
 
   return (
     <>
