@@ -60,7 +60,7 @@ export default function App() {
         <Route path="/reset-password" exact>
           <ResetPassword />
         </Route>
-        <ProtectedRoute path="/profile" exact>
+        <ProtectedRoute path="/profile">
           <Profile />
         </ProtectedRoute>
         <Route path="/ingredients/:id" exact>

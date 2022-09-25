@@ -12,7 +12,7 @@ import {
   wsConnectionClosed,
 } from "../services/actions/wsActions";
 import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+
 
 export function FeedOrderId({ textAlign }) {
   const { id } = useParams();
@@ -27,7 +27,6 @@ export function FeedOrderId({ textAlign }) {
   );
 
   const order = orders?.find(({ _id }) => _id === id);
-  console.log(order);
 
   useEffect(() => {
     if (!isConnected) {

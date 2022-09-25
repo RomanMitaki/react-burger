@@ -22,7 +22,7 @@ export function Feed() {
   return (
     <div className={styles.page}>
       <main className={styles.content}>
-        <OrdersFeed />
+        <OrdersFeed display = {'block'}/>
         <OrdersInfo />
       </main>
     </div>
