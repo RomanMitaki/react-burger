@@ -13,7 +13,7 @@ import { socketMiddleware } from "./services/middleware/socketMiddleware";
 import { Provider } from "react-redux";
 import { rootReducer } from "./services/index";
 import { BrowserRouter as Router } from "react-router-dom";
-import { wsOrders } from "./utils/constants";
+import { wsOrders, wsOrdersAuth } from "./utils/constants";
 import {
   wsSendMessage,
   wsConnectionSuccess,
@@ -21,10 +21,20 @@ import {
   wsConnectionError,
   wsGetMessage,
   WS_CONNECTION_START,
+  WS_CONNECTION_AUTH_START,
 } from "./services/actions/wsActions";
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,
+  wsSendMessage: wsSendMessage,
+  onOpen: wsConnectionSuccess,
+  onClose: wsConnectionClosed,
+  onError: wsConnectionError,
+  onMessage: wsGetMessage,
+};
+
+const wsAuthActions = {
+  wsInit: WS_CONNECTION_AUTH_START,
   wsSendMessage: wsSendMessage,
   onOpen: wsConnectionSuccess,
   onClose: wsConnectionClosed,
@@ -41,7 +51,8 @@ declare global {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancer = composeEnhancers(
   applyMiddleware(thunk),
-  applyMiddleware(socketMiddleware(wsOrders, wsActions, false))
+  applyMiddleware(socketMiddleware(wsOrders, wsActions, false)),
+  applyMiddleware(socketMiddleware(wsOrdersAuth, wsAuthActions, true))
 );
 const store = createStore(rootReducer, enhancer);
 

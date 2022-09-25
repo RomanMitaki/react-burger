@@ -4,7 +4,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { useMemo } from "react";
 
 export default function OrderIdFeedItem({ ingredient }) {
-  console.log(ingredient);
+  
 
   return (
     <div className={styles.orderIdFeedItem__container}>

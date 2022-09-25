@@ -12,18 +12,37 @@ import {
   wsConnectionClosed,
 } from "../services/actions/wsActions";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 export function FeedOrderId({ textAlign }) {
-  const { id } = useParams();
+   const { id } = useParams();
   const { path } = useRouteMatch();
   const dispatch = useDispatch();
-console.log(path);
+  //const history = useHistory();
+  //console.log(history);
+  
   const orders = useSelector((store) => store.wsOrders.orders);
+//  const isConnected = useSelector((store) => store.wsOrders.wsConnected);
+  
   const ingredients = useSelector(
     (store) => store.burgerIngredients.ingredients
   );
-console.log(orders);
+
   const order = orders?.find(({ _id }) => _id === id);
+ // console.log(isConnected);
+  
+  useEffect(() => {
+    if (!orders) {
+      if (path.includes("feed")) {
+        dispatch(wsConnectionStart());
+      }
+      return () => {
+        if (path.includes("feed")) {
+          dispatch(wsConnectionClosed());
+        }
+      };
+    }
+  }, [dispatch]);
 
   //создаем объект, где ключ - _id ингредиента, а значение - количество
   //его повторений в массиве, возвращаемом сервером
@@ -71,68 +90,60 @@ console.log(orders);
     }, 0);
   }, [selectedIngredients]);
 
-  useEffect(() => {
-    if (!orders) {
-      if (path.includes("feed")) {
-        dispatch(wsConnectionStart());
-      }
-      return () => {
-        if (path.includes("feed")) {
-          dispatch(wsConnectionClosed());
-        }
-      };
-    }
-  }, [dispatch, order, path]);
-
   
 
   return (
-   <>
-    {order && (<div className={styles.order__container}>
-      <p
-        className={`${styles.order__orderId} text text_type_digits-default`}
-        style={{ textAlign: `${textAlign}` }}
-      >
-        {`#${order.number}`}
-      </p>
-      <h2 className={`${styles.order__header} text text_type_main-medium`}>
-        {`${order.name}`}
-      </h2>
-      <p
-        className={`${styles.order__status} text text_type_main-default  ${
-          order.status === "done"
-            ? styles.order__status_done
-            : order.status === "cancel"
-            ? styles.order__status_cancel
-            : ""
-        }`}
-      >
-        {`${formatOrderStatus(order.status)}`}
-      </p>
-      <p className={`${styles.order__header} text text_type_main-medium`}>
-        Состав:
-      </p>
-      <ul className={styles.orderIngredients__list}>
-        {selectedIngredients.map((ingredient) => (
-          <li key={ingredient.nanoId}>
-            <OrderIdFeedItem
-              selectedIngredients={selectedIngredients}
-              ingredient={ingredient}
-            />
-          </li>
-        ))}
-      </ul>
-      <div className={styles.orderIngredients__dateAndPrice_container}>
-        <p className={`${styles.order__date} text text_type_main-default`}>
-          {`${formatDate(order.updatedAt)}`}
-        </p>
-        <div className={`${styles.order__price_container}`}>
-          <p className={`${styles.order__price} text text_type_digits-default`}>
-            {totalPrice}
+    <>
+      {order && (
+        <div className={styles.order__container}>
+          <p
+            className={`${styles.order__orderId} text text_type_digits-default`}
+            style={{ textAlign: `${textAlign}` }}
+          >
+            {`#${order.number}`}
           </p>
-          <CurrencyIcon type="primary" />
+          <h2 className={`${styles.order__header} text text_type_main-medium`}>
+            {`${order.name}`}
+          </h2>
+          <p
+            className={`${styles.order__status} text text_type_main-default  ${
+              order.status === "done"
+                ? styles.order__status_done
+                : order.status === "cancel"
+                ? styles.order__status_cancel
+                : ""
+            }`}
+          >
+            {`${formatOrderStatus(order.status)}`}
+          </p>
+          <p className={`${styles.order__header} text text_type_main-medium`}>
+            Состав:
+          </p>
+          <ul className={styles.orderIngredients__list}>
+            {selectedIngredients.map((ingredient) => (
+              <li key={ingredient.nanoId}>
+                <OrderIdFeedItem
+                  selectedIngredients={selectedIngredients}
+                  ingredient={ingredient}
+                />
+              </li>
+            ))}
+          </ul>
+          <div className={styles.orderIngredients__dateAndPrice_container}>
+            <p className={`${styles.order__date} text text_type_main-default`}>
+              {`${formatDate(order.updatedAt)}`}
+            </p>
+            <div className={`${styles.order__price_container}`}>
+              <p
+                className={`${styles.order__price} text text_type_digits-default`}
+              >
+                {totalPrice}
+              </p>
+              <CurrencyIcon type="primary" />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>)}</>
+      )}
+    </>
   );
 }

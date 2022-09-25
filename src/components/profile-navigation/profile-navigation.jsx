@@ -5,9 +5,10 @@ import { logout } from "../../services/actions/auth";
 
 import { deleteCookie } from "../../utils/utils";
 
-export function ProfileNavigation() {
+export function ProfileNavigation({match}) {
   const dispatch = useDispatch();
   const history = useHistory();
+  console.log(match)
 
   const signOut = () => {
     dispatch(logout());
@@ -19,7 +20,7 @@ export function ProfileNavigation() {
   return (
     <div className={styles.content}>
       <NavLink
-        to="/profile"
+        to={match.url}
         className={`${styles.link} text text_type_main-medium`}
         activeClassName={styles.link__active}
         exact
@@ -27,7 +28,7 @@ export function ProfileNavigation() {
         Профиль
       </NavLink>
       <NavLink
-        to="/"
+        to={`${match.url}/orders`}
         className={`${styles.link} text text_type_main-medium`}
         activeClassName={styles.link__active}
         exact

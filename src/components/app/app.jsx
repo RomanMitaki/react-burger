@@ -15,7 +15,6 @@ import {
   IngredientDetailsPage,
   Feed,
   FeedOrderId,
-  
 } from "../../pages";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route.jsx";
@@ -78,7 +77,7 @@ export default function App() {
         </Route>
       </Switch>
       {background && (
-        <Switch>
+        <>
           <Route path="/ingredients/:id">
             <Modal onClose={onClose} isOpened={true}>
               <IngredientDetails />
@@ -89,7 +88,7 @@ export default function App() {
               <FeedOrderId textAlign={"left"} />
             </Modal>
           </Route>
-        </Switch>
+        </>
       )}
     </>
   );
