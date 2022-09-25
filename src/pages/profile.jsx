@@ -9,15 +9,12 @@ import { useDispatch } from "react-redux";
 import {
   wsConnectionAuthStart,
   wsConnectionClosed,
-  wsConnectionStart
+  wsConnectionStart,
 } from "../services/actions/wsActions";
-//import { getCookie } from "../utils/utils";
 
 export function Profile() {
-  
   const dispatch = useDispatch();
   const match = useRouteMatch();
- 
 
   useEffect(() => {
     dispatch(wsConnectionAuthStart());
@@ -25,19 +22,17 @@ export function Profile() {
       dispatch(wsConnectionClosed());
     };
   }, [dispatch]);
- 
-  //console.log(getCookie("accessToken"));
 
   return (
     <div className={styles.page}>
       <main className={styles.content}>
-        <ProfileNavigation match={match}/>
+        <ProfileNavigation match={match} />
         <Switch>
           <Route path={match.path} exact>
             <ProfileInfo />
           </Route>
           <Route path={`${match.path}/orders`} exact>
-            <OrdersFeed display = {'none'}/>
+            <OrdersFeed display={"none"} status={'block'} />
           </Route>
         </Switch>
       </main>

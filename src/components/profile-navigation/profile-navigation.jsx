@@ -3,15 +3,15 @@ import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../services/actions/auth";
 
-import { deleteCookie } from "../../utils/utils";
+import { deleteCookie, getCookie } from "../../utils/utils";
 
 export function ProfileNavigation({match}) {
   const dispatch = useDispatch();
   const history = useHistory();
-  console.log(match)
+  
 
   const signOut = () => {
-    dispatch(logout());
+    dispatch(logout(getCookie('refreshToken')));
     deleteCookie("refreshToken");
     deleteCookie("accessToken");
     history.go('/login');

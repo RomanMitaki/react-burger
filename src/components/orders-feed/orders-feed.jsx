@@ -2,7 +2,7 @@ import styles from "./orders-feed.module.css";
 import { useSelector } from "react-redux";
 import OrdersFeedItem from "../orders-feed-item/orders-feed-item";
 
-export default function OrdersFeed({display}) {
+export default function OrdersFeed({display, status}) {
   const orders = useSelector((store) => store.wsOrders.orders);
   console.log(orders);
 
@@ -16,7 +16,7 @@ export default function OrdersFeed({display}) {
       <ul className={`${styles.feeditems__container}`}>
         {orders.map((order) => (
           <li key={order._id}>
-            <OrdersFeedItem order={order} display={"none"} />
+            <OrdersFeedItem order={order} display={status} />
           </li>
         ))}
       </ul>
