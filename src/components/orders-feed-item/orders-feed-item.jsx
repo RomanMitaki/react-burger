@@ -1,7 +1,7 @@
 import styles from "./orders-feed-item.module.css";
 import ItemImg from "../item-img/item-img";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { nanoid } from "nanoid";
 import { useMemo } from "react";
@@ -13,6 +13,8 @@ export default function OrdersFeedItem({ order, display }) {
   const ingredients = useSelector(
     (store) => store.burgerIngredients.ingredients
   );
+  const { url }  = useRouteMatch();
+  
 //создаем массив ингредиентов конкретного заказа для дальнейшей отрисовки изображений
   const selectedIngredients = order.ingredients.reduce((acc, ingredient) => {
     for (let i = 0; i < ingredients.length; i++) {
@@ -41,7 +43,7 @@ export default function OrdersFeedItem({ order, display }) {
 
   return (
     <Link
-      to={{ pathname: `/feed/${order._id}`, state: { background: location } }}
+      to={{ pathname: `${url}/${order._id}`, state: { background: location } }}
       className={styles.container}
     >
       <div

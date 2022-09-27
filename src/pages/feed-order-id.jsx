@@ -10,9 +10,9 @@ import { formatOrderStatus } from "../utils/format-order-status";
 import {
   wsConnectionStart,
   wsConnectionClosed,
+  wsConnectionAuthStart,
 } from "../services/actions/wsActions";
 import { useEffect } from "react";
-
 
 export function FeedOrderId({ textAlign }) {
   const { id } = useParams();
@@ -28,15 +28,18 @@ export function FeedOrderId({ textAlign }) {
 
   const order = orders?.find(({ _id }) => _id === id);
 
+  //в зависимости от роута открываем нужное нам сокет-соединение
+  //для получения массива заказов (общего/конкретного пользователя)
   useEffect(() => {
     if (!isConnected) {
       if (path.includes("feed")) {
         dispatch(wsConnectionStart());
       }
+      if (path.includes("profile")) {
+        dispatch(wsConnectionAuthStart());
+      }
       return () => {
-        if (path.includes("feed")) {
-          dispatch(wsConnectionClosed());
-        }
+        dispatch(wsConnectionClosed());
       };
     }
   }, [dispatch]);

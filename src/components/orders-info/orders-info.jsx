@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 export default function OrdersInfo() {
   const { total, totalToday, orders } = useSelector((store) => store.wsOrders);
-  //console.log(orders);
+
   if (!orders) {
     return null;
   }

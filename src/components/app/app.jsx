@@ -31,7 +31,7 @@ export default function App() {
     dispatch(getIngredients());
     dispatch(getUser());
     history.replace({ state: null });
-  }, []);
+  }, [dispatch]);
 
   const onClose = () => {
     history.goBack();
@@ -88,6 +88,11 @@ export default function App() {
               <FeedOrderId textAlign={"left"} />
             </Modal>
           </Route>
+          <ProtectedRoute path="/profile/orders/:id" exact>
+            <Modal onClose={onClose} isOpened={true}>
+              <FeedOrderId textAlign={"left"} />
+            </Modal>
+          </ProtectedRoute>
         </>
       )}
     </>

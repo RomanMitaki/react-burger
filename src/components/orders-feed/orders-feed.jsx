@@ -4,7 +4,7 @@ import OrdersFeedItem from "../orders-feed-item/orders-feed-item";
 
 export default function OrdersFeed({display, status}) {
   const orders = useSelector((store) => store.wsOrders.orders);
-  console.log(orders);
+
 
   if (!orders) {
     return null;
