@@ -13,6 +13,8 @@ import {
   Page404,
   Profile,
   IngredientDetailsPage,
+  Feed,
+  FeedOrderId,
 } from "../../pages";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route.jsx";
@@ -29,7 +31,7 @@ export default function App() {
     dispatch(getIngredients());
     dispatch(getUser());
     history.replace({ state: null });
-  }, []);
+  }, [dispatch]);
 
   const onClose = () => {
     history.goBack();
@@ -58,22 +60,40 @@ export default function App() {
         <Route path="/reset-password" exact>
           <ResetPassword />
         </Route>
-        <ProtectedRoute path="/profile" exact>
+        <ProtectedRoute path="/profile">
           <Profile />
         </ProtectedRoute>
         <Route path="/ingredients/:id" exact>
           <IngredientDetailsPage />
+        </Route>
+        <Route path="/feed" exact>
+          <Feed />
+        </Route>
+        <Route path="/feed/:id" exact>
+          <FeedOrderId textAlign={"center"} />
         </Route>
         <Route>
           <Page404 />
         </Route>
       </Switch>
       {background && (
-        <Route path="/ingredients/:id">
-          <Modal onClose={onClose} isOpened={true}>
-            <IngredientDetails />
-          </Modal>
-        </Route>
+        <>
+          <Route path="/ingredients/:id">
+            <Modal onClose={onClose} isOpened={true}>
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <Route path="/feed/:id">
+            <Modal onClose={onClose} isOpened={true}>
+              <FeedOrderId textAlign={"left"} />
+            </Modal>
+          </Route>
+          <ProtectedRoute path="/profile/orders/:id" exact>
+            <Modal onClose={onClose} isOpened={true}>
+              <FeedOrderId textAlign={"left"} />
+            </Modal>
+          </ProtectedRoute>
+        </>
       )}
     </>
   );

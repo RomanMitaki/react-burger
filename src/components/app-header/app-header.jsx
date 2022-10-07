@@ -24,7 +24,7 @@ export default function AppHeader() {
           <HeaderNavElement
             text="Лента заказов"
             typography="text text_type_main-default"
-            href="/login"
+            href="/feed"
           >
             <ListIcon type="secondary" />
           </HeaderNavElement>

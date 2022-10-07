@@ -1,23 +1,26 @@
 import styles from "./profile-navigation.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../services/actions/auth";
 
-import { deleteCookie } from "../../utils/utils";
+import { deleteCookie, getCookie } from "../../utils/utils";
 
-export function ProfileNavigation() {
+export function ProfileNavigation({match}) {
   const dispatch = useDispatch();
+  const history = useHistory();
+  
 
   const signOut = () => {
-    dispatch(logout());
+    dispatch(logout(getCookie('refreshToken')));
     deleteCookie("refreshToken");
     deleteCookie("accessToken");
+    history.go('/login');
   };
 
   return (
     <div className={styles.content}>
       <NavLink
-        to="/profile"
+        to={match.url}
         className={`${styles.link} text text_type_main-medium`}
         activeClassName={styles.link__active}
         exact
@@ -25,7 +28,7 @@ export function ProfileNavigation() {
         Профиль
       </NavLink>
       <NavLink
-        to="/"
+        to={`${match.url}/orders`}
         className={`${styles.link} text text_type_main-medium`}
         activeClassName={styles.link__active}
         exact
