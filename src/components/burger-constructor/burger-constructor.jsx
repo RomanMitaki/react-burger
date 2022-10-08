@@ -52,7 +52,7 @@ export default function BurgerConstructor() {
       return acc;
     }, 0);
     dispatch(setTotalPrice(totalPrice));
-  }, [currentData]);
+  }, [currentData, dispatch]);
 
   //getOrderNumber and orderDetails
   const ingredientsId = currentData.map((ingredient) => {

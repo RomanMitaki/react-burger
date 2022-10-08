@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import AppHeader from "../app-header/app-header.jsx";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getIngredients } from "../../services/actions/burger-ingredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -31,7 +31,7 @@ export default function App() {
     dispatch(getIngredients());
     dispatch(getUser());
     history.replace({ state: null });
-  }, [dispatch]);
+  }, [dispatch, history]);
 
   const onClose = () => {
     history.goBack();

@@ -3,8 +3,8 @@ const replaceDifference = (difference) => {
     ? "Сегодня"
     : difference === 1
     ? "Вчера"
-    : difference > 1
-    ? `${difference} дня назад`
+    : difference < 1
+    ? `${Math.abs(difference)} дней назад`
     : null;
 };
 
@@ -12,6 +12,7 @@ export const formatDate = (date) => {
   let orderDate = new Date(date);
   const difference = new Date().getDate() - orderDate.getDate();
   const differenceToString = replaceDifference(difference);
+
   const hours =
     orderDate.getHours() > 9
       ? `${orderDate.getHours()}`
