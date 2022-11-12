@@ -6,7 +6,7 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import HeaderNavElement from "../header-nav-element/header-nav-element.jsx";
+import HeaderNavElement from "../header-nav-element/header-nav-element";
 import { Link } from "react-router-dom";
 
 export default function AppHeader() {

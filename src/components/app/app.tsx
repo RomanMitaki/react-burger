@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import AppHeader from "../app-header/app-header.jsx";
+import AppHeader from "../app-header/app-header";
 import { useDispatch } from "react-redux";
 import { getIngredients } from "../../services/actions/burger-ingredients";
 import { DndProvider } from "react-dnd";
@@ -17,10 +17,10 @@ import {
   FeedOrderId,
 } from "../../pages";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
-import { ProtectedRoute } from "../protected-route.jsx";
-import { getUser } from "../../services/actions/auth.js";
-import Modal from "../modal/modal.jsx";
-import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
+import { ProtectedRoute } from "../protected-route";
+import { getUser } from "../../services/actions/auth";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 export default function App() {
   const dispatch = useDispatch();

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import IngredientCard from "../ingredient-card/ingredient-card.jsx";
+import IngredientCard from "../ingredient-card/ingredient-card";
 import { useInView } from "react-intersection-observer";
 
 export default function BurgerIngredients(props) {
