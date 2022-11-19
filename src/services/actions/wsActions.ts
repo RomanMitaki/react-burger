@@ -15,7 +15,7 @@ export type TWsConnectionSuccessAction = {
 
 export type TWsConnectionErrorAction = {
     readonly type: typeof WS_CONNECTION_ERROR;
-    readonly payload: { error: string };
+    readonly payload: string;
 }
 
 export type TWsConnectionClosedAction = {
@@ -56,9 +56,10 @@ export const wsConnectionSuccess = () => {
     };
 };
 
-export const wsConnectionError = () => {
+export const wsConnectionError = (error: string) => {
     return {
         type: WS_CONNECTION_ERROR,
+        payload: error,
     };
 };
 
@@ -92,4 +93,6 @@ export const wsConnectionStart = () => {
     return {
         type: WS_CONNECTION_START,
     };
-}; 
+};
+
+

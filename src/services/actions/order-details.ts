@@ -1,5 +1,6 @@
 import {getOrder} from "../../utils/api";
 import {clearConstructor} from "./burger-constructor";
+import {AppDispatch} from "../../index";
 
 export const SET_ORDER_DETAILS: "SET_ORDER_DETAILS" = "SET_ORDER_DETAILS";
 export const CLEAR_ORDER_DETAILS: "CLEAR_ORDER_DETAILS" = "CLEAR_ORDER_DETAILS";
@@ -37,7 +38,7 @@ export type TOrderDetailsActions =
     | TGetOrderNumberFailedAction;
 
 export const getNumberOfOrder = (ingredientsId: string[]) => {
-    return function (dispatch) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: GET_ORDERNUMBER_REQUEST,
         });

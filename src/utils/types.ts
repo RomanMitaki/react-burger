@@ -49,7 +49,7 @@ export type TRegisterData = {
 };
 
 export type TIngredientListResponse = {
-    data: ReadonlyArray<TIngredient>,
+    data: TIngredient[],
     success: boolean,
 }
 

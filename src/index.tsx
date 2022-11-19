@@ -23,8 +23,34 @@ import {
     WS_CONNECTION_START,
     WS_CONNECTION_AUTH_START,
 } from "./services/actions/wsActions";
+import {ThunkAction} from "redux-thunk";
+import {ActionCreator} from "redux";
+import {TAuthActions} from "./services/actions/auth";
+import {TBurgerIngredientsActions} from "./services/actions/burger-ingredients";
+import {TBurgerConstructorActions} from "./services/actions/burger-constructor";
+import {TOrderDetailsActions} from "./services/actions/order-details";
+import {TWsActions} from "./services/actions/wsActions";
 
-const wsActions = {
+
+type TActions =
+    TWsActions
+    | TAuthActions
+    | TOrderDetailsActions
+    | TBurgerConstructorActions
+    | TBurgerIngredientsActions;
+
+
+export type TWsMiddleware = {
+    wsInit: typeof WS_CONNECTION_START | typeof WS_CONNECTION_AUTH_START,
+    wsSendMessage: ActionCreator<TWsActions>,
+    onOpen: ActionCreator<TWsActions>,
+    onClose: ActionCreator<TWsActions>,
+    onError: ActionCreator<TWsActions>,
+    onMessage: ActionCreator<TWsActions>,
+}
+
+
+const wsActions: TWsMiddleware = {
     wsInit: WS_CONNECTION_START,
     wsSendMessage: wsSendMessage,
     onOpen: wsConnectionSuccess,
@@ -33,7 +59,7 @@ const wsActions = {
     onMessage: wsGetMessage,
 };
 
-const wsAuthActions = {
+const wsAuthActions: TWsMiddleware = {
     wsInit: WS_CONNECTION_AUTH_START,
     wsSendMessage: wsSendMessage,
     onOpen: wsConnectionSuccess,
@@ -55,6 +81,10 @@ const enhancer = composeEnhancers(
     applyMiddleware(socketMiddleware(wsOrdersAuth, wsAuthActions, true))
 );
 const store = createStore(rootReducer, enhancer);
+export type RootState = ReturnType<typeof store.getState>;
+export type AppThunk<ReturnType = void> = ActionCreator<ThunkAction<ReturnType, RootState, unknown, TActions>>;
+export type AppDispatch = typeof store.dispatch;
+
 
 const container = document.getElementById("root");
 const root = createRoot(container!);

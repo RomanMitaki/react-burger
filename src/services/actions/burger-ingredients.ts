@@ -1,5 +1,6 @@
 import {getIngredientsList} from "../../utils/api";
 import {TIngredient} from "../../utils/types";
+import {AppDispatch} from "../../index";
 
 export const GET_INGREDIENTS_REQUEST: "GET_INGREDIENTS_REQUEST" = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS: "GET_INGREDIENTS_SUCCESS" = "GET_INGREDIENTS_SUCCESS";
@@ -24,7 +25,7 @@ export type TBurgerIngredientsActions =
     | TGetIngredientsFailedAction
 
 export function getIngredients() {
-    return function (dispatch) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: GET_INGREDIENTS_REQUEST,
         });
