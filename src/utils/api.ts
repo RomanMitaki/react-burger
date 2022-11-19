@@ -1,6 +1,15 @@
 import {baseURL, API} from "./constants";
 import {getCookie} from "./utils";
-import {TIngredientListResponse} from "./types";
+import {
+    TIngredientListResponse,
+    TLoginSuccessResponse,
+    TOrderResponse,
+    TLogoutResponse,
+    TGetUserResponse,
+    TRefreshTokenResponse,
+    TForgotPasswordResponse,
+    TResetPasswordResponse,
+} from "./types";
 
 const checkResponse = <T>(res: Response): Promise<T> => {
     if (!res.ok) {
@@ -9,7 +18,7 @@ const checkResponse = <T>(res: Response): Promise<T> => {
     return res.json();
 };
 
-export const getEngredientsList = async () => {
+export const getIngredientsList = async () => {
     const res = await fetch(API);
     return checkResponse<TIngredientListResponse>(res);
 };
@@ -25,7 +34,7 @@ export const getOrder = async (ingredientsId: string[]) => {
             ingredients: ingredientsId,
         }),
     });
-    return checkResponse(res);
+    return checkResponse<TOrderResponse>(res);
 };
 
 export const registerRequest = async (regData: { email: string, password: string, name: string }) => {
@@ -38,7 +47,7 @@ export const registerRequest = async (regData: { email: string, password: string
             name: regData.name,
         }),
     });
-    return checkResponse(res);
+    return checkResponse<TLoginSuccessResponse>(res);
 };
 
 export const loginRequest = async (loginData: { email: string, password: string }) => {
@@ -50,7 +59,7 @@ export const loginRequest = async (loginData: { email: string, password: string 
             password: loginData.password,
         }),
     });
-    return checkResponse(res);
+    return checkResponse<TLoginSuccessResponse>(res);
 };
 
 export const forgotPasswordRequest = async (email: { email: string }) => {
@@ -61,7 +70,7 @@ export const forgotPasswordRequest = async (email: { email: string }) => {
             email: email.email,
         }),
     });
-    return checkResponse(res);
+    return checkResponse<TForgotPasswordResponse>(res);
 };
 
 export const resetPasswordRequest = async (data: { password: string, verCode: string }) => {
@@ -73,7 +82,7 @@ export const resetPasswordRequest = async (data: { password: string, verCode: st
             token: data.verCode,
         }),
     });
-    return checkResponse(res);
+    return checkResponse<TResetPasswordResponse>(res);
 };
 
 export const logoutRequest = async (refreshToken: string) => {
@@ -87,7 +96,7 @@ export const logoutRequest = async (refreshToken: string) => {
             token: refreshToken,
         }),
     });
-    return checkResponse(res);
+    return checkResponse<TLogoutResponse>(res);
 };
 
 export const getUserInfo = async () => {
@@ -103,7 +112,7 @@ export const getUserInfo = async () => {
         redirect: "follow",
         referrerPolicy: "no-referrer",
     });
-    return checkResponse(res);
+    return checkResponse<TGetUserResponse>(res);
 };
 
 export const refreshTokenRequest = async () => {
@@ -118,7 +127,7 @@ export const refreshTokenRequest = async () => {
             token: refreshToken,
         }),
     });
-    return checkResponse(res);
+    return checkResponse<TRefreshTokenResponse>(res);
 };
 
 export const updateUserInfo = async (updateData: { email: string, name: string }) => {
@@ -138,5 +147,5 @@ export const updateUserInfo = async (updateData: { email: string, name: string }
             name: updateData.name,
         }),
     });
-    return checkResponse(res);
+    return checkResponse<TGetUserResponse>(res);
 };

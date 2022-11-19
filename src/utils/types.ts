@@ -1,3 +1,5 @@
+import exp from "constants";
+
 export type TIngredient = {
     readonly _id: string,
     readonly name: string,
@@ -11,6 +13,7 @@ export type TIngredient = {
     readonly image_mobile: string,
     readonly image_large: string,
     readonly __v: number,
+    readonly uniqueId?: string,
 };
 
 export type TOrder = {
@@ -35,6 +38,7 @@ export type TLoginData = {
     password: string,
 };
 
+
 export type TResetPasswordData = {
     token: string,
     password: string,
@@ -49,4 +53,61 @@ export type TRegisterData = {
 export type TIngredientListResponse = {
     data: ReadonlyArray<TIngredient>,
     success: boolean,
+}
+
+export type TOrderResponse = {
+    order: TOrder,
+    success: boolean,
+}
+
+export type TLoginSuccessResponse = {
+    success: boolean,
+    accessToken: string,
+    refreshToken: string,
+    user: {
+        email: string,
+        name: string,
+    }
+}
+
+export type TLogoutResponse = {
+    success: boolean,
+    message: string,
+}
+
+export type TGetUserResponse = {
+    success: boolean,
+    user: {
+        email: string,
+        name: string,
+    }
+}
+
+export type TRefreshTokenResponse = {
+    success: boolean,
+    accessToken: string,
+    refreshToken: string,
+}
+
+export type TForgotPasswordResponse = {
+    success: boolean,
+    message: string
+}
+
+export type TResetPasswordResponse = TForgotPasswordResponse;
+
+export type TwsMessageResponse = {
+    success: boolean,
+    orders: [
+        {
+            ingredients: string[],
+            _id: string,
+            status: string,
+            number: number,
+            createdAt: string,
+            updatedAt: string,
+        }
+    ],
+    total: number,
+    totalToday: number,
 }

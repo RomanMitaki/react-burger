@@ -1,7 +1,7 @@
 import {
-  GET_INGRIDIENTS_REQUEST,
-  GET_INGRIDIENTS_SUCCESS,
-  GET_INGRIDIENTS_FAILED,
+  GET_INGREDIENTS_REQUEST,
+  GET_INGREDIENTS_SUCCESS,
+  GET_INGREDIENTS_FAILED,
 } from "../actions/burger-ingredients";
 
 const initialState = {
@@ -12,21 +12,21 @@ const initialState = {
 
 export const burgerIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_INGRIDIENTS_REQUEST: {
+    case GET_INGREDIENTS_REQUEST: {
       return {
         ...state,
         ingredientsRequest: true,
         ingredientsFailed: false,
       };
     }
-    case GET_INGRIDIENTS_SUCCESS: {
+    case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
         ingredients: action.ingredients,
         ingredientsRequest: false,
       };
     }
-    case GET_INGRIDIENTS_FAILED: {
+    case GET_INGREDIENTS_FAILED: {
       return {
         ...state,
         ingredientsFailed: true,

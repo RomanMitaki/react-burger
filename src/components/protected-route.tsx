@@ -1,22 +1,27 @@
-import { Route, Redirect } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import { getCookie } from "../utils/utils";
+import {FC, ReactElement} from "react";
+import {Route, Redirect} from "react-router-dom";
+import {useLocation} from "react-router-dom";
+import {getCookie} from "../utils/utils";
 
-export function ProtectedRoute({ children, ...rest }) {
-  //const auth = useSelector((state) => state.auth.auth);
-  const location = useLocation();
-  let cookie = getCookie("accessToken") !== undefined;
+type TProtectedRoute = {
+    children: ReactElement,
+    path: string,
+    exact?: boolean
+}
 
-  return (
-    <Route
-      {...rest}
-      render={() =>
-        cookie ? (
-          children
-        ) : (
-          <Redirect to={{ pathname: "/login", state: { from: location } }} />
-        )
-      }
-    />
-  );
+export const ProtectedRoute: FC<TProtectedRoute> = ({children, ...rest}) => {
+    const location = useLocation();
+    let cookie = getCookie("accessToken") !== undefined;
+    return (
+        <Route
+            {...rest}
+            render={() =>
+                cookie ? (
+                    children
+                ) : (
+                    <Redirect to={{pathname: "/login", state: {from: location}}}/>
+                )
+            }
+        />
+    );
 }
