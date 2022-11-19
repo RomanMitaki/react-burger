@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-export function useForm(inputValues: { email?: string | undefined, password?: string | undefined } = {}) {
+export function useForm(inputValues: { email?: string | undefined, password?: string | undefined, name?: string | undefined } = {}) {
     const [values, setValues] = useState(inputValues);
 
     const handleChange = (event: any) => {

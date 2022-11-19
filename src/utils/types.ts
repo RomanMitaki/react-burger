@@ -1,5 +1,3 @@
-import exp from "constants";
-
 export type TIngredient = {
     readonly _id: string,
     readonly name: string,
@@ -96,8 +94,8 @@ export type TForgotPasswordResponse = {
 
 export type TResetPasswordResponse = TForgotPasswordResponse;
 
-export type TwsMessageResponse = {
-    success: boolean,
+export type TWsMessageResponse = {
+    success?: boolean,
     orders: [
         {
             ingredients: string[],

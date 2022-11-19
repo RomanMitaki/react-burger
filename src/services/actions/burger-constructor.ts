@@ -7,14 +7,46 @@ export const SWAP_FILLINGS: "SWAP_FILLINGS" = "SWAP_FILLINGS";
 export const CLEAR_CONSTRUCTOR: "CLEAR_CONSTRUCTOR" = "CLEAR_CONSTRUCTOR";
 export const SET_TOTAL_PRICE: "SET_TOTAL_PRICE" = "SET_TOTAL_PRICE";
 
-export const setCurrentIngredient = (ingredient: { ingredient: TIngredient }) => {
+export type TSetCurrentIngredientsAction = {
+    readonly type: typeof SET_CURRENT_INGREDIENTS;
+    readonly data: TIngredient;
+}
+
+export type TDeleteIngredientAction = {
+    readonly type: typeof DELETE_INGREDIENT;
+    readonly data: TIngredient;
+}
+
+export type TSwapFillingsAction = {
+    readonly type: typeof SWAP_FILLINGS;
+    readonly data: { dragIndex: number, hoverIndex: number, ingredient: TIngredient };
+}
+
+export type TClearConstructorAction = {
+    readonly type: typeof CLEAR_CONSTRUCTOR;
+}
+
+export type TSetTotalPriceAction = {
+    readonly type: typeof SET_TOTAL_PRICE;
+    readonly data: { totalPrice: number };
+}
+
+export type TBurgerConstructorActions =
+    TDeleteIngredientAction
+    | TSetCurrentIngredientsAction
+    | TSetTotalPriceAction
+    | TSwapFillingsAction
+    | TClearConstructorAction;
+
+
+export const setCurrentIngredient = (ingredient: {ingredient: TIngredient}) => {
     const uniqueId = nanoid();
-    // @ts-ignore
-    ingredient = {...ingredient.ingredient, uniqueId};
+
+    let modifiedIngredient = {...ingredient.ingredient, uniqueId};
 
     return {
         type: SET_CURRENT_INGREDIENTS,
-        data: ingredient,
+        data: modifiedIngredient,
     };
 };
 
@@ -36,3 +68,5 @@ export const setTotalPrice = (totalPrice: number) => ({
     type: SET_TOTAL_PRICE,
     data: totalPrice,
 });
+
+

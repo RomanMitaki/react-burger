@@ -8,6 +8,34 @@ export const GET_ORDERNUMBER_REQUEST: "GET_ORDERNUMBER_REQUEST" = "GET_ORDERNUMB
 export const GET_ORDERNUMBER_SUCCESS: "GET_ORDERNUMBER_SUCCESS" = "GET_ORDERNUMBER_SUCCESS";
 export const GET_ORDERNUMBER_FAILED: "GET_ORDERNUMBER_FAILED" = "GET_ORDERNUMBER_FAILED";
 
+export type TSetOrderDetailsAction = {
+    readonly type: typeof SET_ORDER_DETAILS;
+}
+
+export type TClearOrderDetailsAction = {
+    readonly type: typeof CLEAR_ORDER_DETAILS;
+}
+
+export type TGetOrderNumberRequestAction = {
+    readonly type: typeof GET_ORDERNUMBER_REQUEST;
+}
+
+export type TGetOrderNumberSuccessAction = {
+    readonly type: typeof GET_ORDERNUMBER_SUCCESS;
+    readonly orderNumber: number | null;
+}
+
+export type TGetOrderNumberFailedAction = {
+    readonly type: typeof GET_ORDERNUMBER_FAILED;
+}
+
+export type TOrderDetailsActions =
+    TSetOrderDetailsAction
+    | TClearOrderDetailsAction
+    | TGetOrderNumberRequestAction
+    | TGetOrderNumberSuccessAction
+    | TGetOrderNumberFailedAction;
+
 export const getNumberOfOrder = (ingredientsId: string[]) => {
     return function (dispatch) {
         dispatch({
