@@ -8,7 +8,8 @@ import {
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import BurgerFilling from "./burger-filling/burger-filling";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "../../services/hooks/useSelector";
+import {useDispatch} from "../../services/hooks/useDispatch";
 import {
     SET_ORDER_DETAILS,
     CLEAR_ORDER_DETAILS,
@@ -21,6 +22,7 @@ import {
     setTotalPrice,
 } from "../../services/actions/burger-constructor";
 import {useHistory} from "react-router-dom";
+import {TIngredient} from "../../utils/types";
 
 export default function BurgerConstructor() {
     const dispatch = useDispatch();
@@ -55,27 +57,28 @@ export default function BurgerConstructor() {
     }, [currentData, dispatch]);
 
     //getOrderNumber and orderDetails
-    const ingredientsId = currentData.map((ingredient) => {
-        return (ingredient = ingredient._id);
-    });
+    const ingredientsId = currentData.reduce((acc, ingredient) => {
+        acc.push(ingredient._id)
+        return acc;
+    }, [] as string[]);
 
     const setOrderDetails = () => {
         dispatch({type: SET_ORDER_DETAILS});
     };
 
     //handlers
-    const onDropHandler = (item) => {
+    const onDropHandler = (item: { ingredient: TIngredient }) => {
         dispatch(setCurrentIngredient(item));
     };
 
-    const deleteHandler = (ingredient) => {
+    const deleteHandler = (ingredient: TIngredient) => {
         dispatch(deleteIngredient(ingredient));
     };
 
     //dnd
     const [{isHover}, dropTarget] = useDrop({
         accept: "ingredient",
-        drop(item) {
+        drop(item: { ingredient: TIngredient }) {
             onDropHandler(item);
         },
         collect: (monitor) => ({
@@ -167,11 +170,11 @@ export default function BurgerConstructor() {
                 </p>
                 <CurrencyIcon type="primary"/>
                 {currentData.some((ingredient) => ingredient.type === "bun") ? (
-                    <Button type="primary" size="large" onClick={makeOrder}>
+                    <Button htmlType='submit' type="primary" size="large" onClick={makeOrder}>
                         Оформить заказ
                     </Button>
                 ) : (
-                    <Button type="primary" size="large" onClick={makeOrder} disabled>
+                    <Button htmlType='submit' type="primary" size="large" onClick={makeOrder} disabled>
                         Оформить заказ
                     </Button>
                 )}

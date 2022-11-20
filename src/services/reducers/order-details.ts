@@ -11,20 +11,20 @@ import icon from "../../images/popup-done.png";
 
 type TOrderDetailsState = {
     orderDetails: {
-        orderId: number,
-        statusIcon: string,
+        orderId: number | null,
+        statusIcon: any,
         status: { p1?: string, p2?: string },
     },
     isOpened: boolean,
     orderNumberRequest: boolean,
     orderNumberFailed: boolean,
-}
+};
 
 const initialState: TOrderDetailsState = {
     orderDetails: {
         orderId: 0,
-        statusIcon: "",
-        status: {},
+        statusIcon: '',
+        status: {p1: '', p2: ''},
     },
     isOpened: false,
     orderNumberRequest: false,
@@ -71,7 +71,7 @@ export const orderDetailsReducer = (state = initialState, action: TOrderDetailsA
         case CLEAR_ORDER_DETAILS: {
             return {
                 ...state,
-                orderDetails: {},
+                orderDetails: initialState.orderDetails,
                 isOpened: false,
             };
         }

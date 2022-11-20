@@ -11,7 +11,7 @@ type TProps = {
         name: string,
         nanoId: string,
         quantity: number
-    } | undefined
+    }
 };
 
 const OrderIdFeedItem: FC<TProps> = ({ingredient}) => {

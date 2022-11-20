@@ -23,11 +23,11 @@ export function ProfileInfo() {
             holderEmail: storeEmail,
             holderName: storeName,
         });
-    }, [storeName, storeEmail, setValues, values]);
+    }, [storeName, storeEmail]);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(updateUserData({email: values.holderEmail, name: values.holderName}));
+        dispatch(updateUserData({email: values.email, name: values.name}));
         setValues({
             holderEmail: storeEmail,
             password: "",

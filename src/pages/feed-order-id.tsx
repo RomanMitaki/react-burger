@@ -17,7 +17,7 @@ import {useEffect} from "react";
 import {FC} from "react";
 
 
-export const FeedOrderId: FC<{ textAlign: string | undefined }> = ({textAlign}) => {
+export const FeedOrderId: FC<{ textAlign: 'left' | 'center' }> = ({textAlign}) => {
     const {id} = useParams<{ id: string }>();
     const {path} = useRouteMatch();
     const dispatch = useDispatch();
@@ -137,7 +137,6 @@ export const FeedOrderId: FC<{ textAlign: string | undefined }> = ({textAlign}) 
                         {selectedIngredients?.map((ingredient) => (
                             <li key={ingredient.nanoId}>
                                 <OrderIdFeedItem
-                                    selectedIngredients={selectedIngredients}
                                     ingredient={ingredient}
                                 />
                             </li>

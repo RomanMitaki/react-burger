@@ -7,4 +7,7 @@ declare module '*.css' {
     export = classNames;
 }
 
-declare module '*.png';
+declare module "*.png" {
+    const path: string;
+    export default path;
+}

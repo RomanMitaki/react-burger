@@ -1,44 +1,44 @@
 .popup__container_type_orderDetails {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .popup__header {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  vertical-align: center;
-  color: #f2f2f3;
-  font-style: 700;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    vertical-align: center;
+    color: #f2f2f3;
+    font-weight: 700;
 }
 
 .popup__subTitle {
-  box-sizing: border-box;
-  padding: 0;
-  text-align: center;
-  color: #f2f2f3;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: calc(30 / 24);
+    box-sizing: border-box;
+    padding: 0;
+    text-align: center;
+    color: #f2f2f3;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: calc(30 / 24);
 }
 
 .popupImg {
-  box-sizing: border-box;
-  margin: 0 auto 60px auto;
-  padding: 0;
-  width: 120px;
-  height: 120px;
+    box-sizing: border-box;
+    margin: 0 auto 60px auto;
+    padding: 0;
+    width: 120px;
+    height: 120px;
 }
 
 .status__text {
-  display: block;
-  box-sizing: border-box;
-  margin: 0 auto;
-  padding: 0 0 8px 0;
+    display: block;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 0 8px 0;
 }
 
 .status__text:last-of-type {
-  padding: 0;
+    padding: 0;
 }

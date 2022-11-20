@@ -38,7 +38,7 @@ const OrdersFeedItem: FC<TProps> = ({order, display}) => {
         name: string,
         nanoId: string,
         type: string
-    }[] | undefined;
+    }[];
 
     const selectedIngredients: TSelectedIngredients = order.ingredients.reduce((acc, ingredient) => {
         for (let i = 0; i < ingredients.length; i++) {

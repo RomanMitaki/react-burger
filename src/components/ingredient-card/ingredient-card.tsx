@@ -2,15 +2,21 @@ import styles from "./ingredient-card.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDrag} from "react-dnd";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/hooks/useSelector";
 import {useMemo} from "react";
 import {useLocation, Link} from "react-router-dom";
+import {TIngredient, TLocation} from "../../utils/types";
+import {FC} from "react";
 
-export default function IngredientCard({ingredient}) {
+type TProps = {
+    ingredient: TIngredient
+}
+
+const IngredientCard: FC<TProps> = ({ingredient}) => {
     const constructorData = useSelector(
         (store) => store.burgerConstructor.currentIngredients
     );
-    const location = useLocation();
+    const location = useLocation<TLocation>();
 
     const [{opacity}, dragRef] = useDrag({
         type: "ingredient",
@@ -42,8 +48,10 @@ export default function IngredientCard({ingredient}) {
                     return count;
                 }
             },
-        [constructorData]
+        [constructorData, ingredient._id, ingredient.type]
     );
+
+    let count = counter();
 
     return (
         <>
@@ -56,7 +64,7 @@ export default function IngredientCard({ingredient}) {
                     state: {background: location},
                 }}
             >
-                <Counter count={counter()} size="default"/>
+                {!count ? null : <Counter count={count} size="default"/>}
                 <img
                     className={`${styles.card__img} `}
                     src={ingredient.image}
@@ -75,5 +83,7 @@ export default function IngredientCard({ingredient}) {
         </>
     );
 }
+
+export default IngredientCard;
 
 

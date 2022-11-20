@@ -28,20 +28,8 @@ export type TOrder = {
     readonly _id: string,
 }
 
-export type TUser = {
-    name: string,
-    email: string,
-    password: string,
-};
-
 export type TLoginData = {
     email: string,
-    password: string,
-};
-
-
-export type TResetPasswordData = {
-    token: string,
     password: string,
 };
 

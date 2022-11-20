@@ -3,28 +3,34 @@ import {
     DragIcon,
     ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import {useDrag, useDrop} from "react-dnd";
 import {useRef} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch} from "../../../services/hooks/useDispatch";
 import {swapFillings} from "../../../services/actions/burger-constructor";
+import {FC} from "react";
+import {TIngredient} from "../../../utils/types";
 
+type TProps = {
+    ingredient: TIngredient,
+    deleteHandler: () => void,
+    index: number,
+}
 
-export default function BurgerFilling({ingredient, deleteHandler, index}) {
+const BurgerFilling: FC<TProps> = ({ingredient, deleteHandler, index}) => {
     const dispatch = useDispatch();
     const ref = useRef(null);
 
 
     const [, drop] = useDrop({
         accept: "ingredientConstructor",
-        hover(ingredient) {
+        hover(item: { item: TIngredient, index: number }) {
             if (!ref.current) {
                 return;
             }
-            const dragIndex = ingredient.index;
+            const dragIndex = item.index;
             const hoverIndex = index;
             dispatch(swapFillings(dragIndex, hoverIndex, ingredient));
-            ingredient.index = hoverIndex;
+            item.index = hoverIndex;
         },
 
     });
@@ -57,5 +63,7 @@ export default function BurgerFilling({ingredient, deleteHandler, index}) {
         </li>
     );
 }
+
+export default BurgerFilling;
 
 
