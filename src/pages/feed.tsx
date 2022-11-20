@@ -1,13 +1,12 @@
 import styles from "./feed.module.css";
 import {useEffect} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch} from "../services/hooks/useDispatch";
 import OrdersFeed from "../components/orders-feed/orders-feed";
 import OrdersInfo from "../components/orders-info/orders-info";
 import {
     wsConnectionStart,
     wsConnectionClosed,
 } from "../services/actions/wsActions";
-
 
 export function Feed() {
     const dispatch = useDispatch();

@@ -323,7 +323,7 @@ export function updateUserData(updateData: { email: string, name: string }) {
     };
 }
 
-export function updatePassword(email: { email: string }) {
+export function updatePassword(email: {email: string} ) {
     return function (dispatch: AppDispatch) {
         forgotPasswordRequest(email)
             .then((res) => {

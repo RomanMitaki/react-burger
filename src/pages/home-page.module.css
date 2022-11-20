@@ -10,9 +10,9 @@
     min-height: 100vh;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
-  }
-  
-  .content {
+}
+
+.content {
     width: 1240px;
     margin: 40px auto 0 auto;
     padding: 0;
@@ -20,4 +20,4 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-  }
+}

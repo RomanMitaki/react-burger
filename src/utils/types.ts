@@ -1,3 +1,5 @@
+import {Location} from 'history';
+
 export type TIngredient = {
     readonly _id: string,
     readonly name: string,
@@ -12,6 +14,7 @@ export type TIngredient = {
     readonly image_large: string,
     readonly __v: number,
     readonly uniqueId?: string,
+    quantity?: number,
 };
 
 export type TOrder = {
@@ -104,8 +107,14 @@ export type TWsMessageResponse = {
             number: number,
             createdAt: string,
             updatedAt: string,
+            name: string
         }
     ],
     total: number,
     totalToday: number,
 }
+
+export type TLocation = {
+    background?: Location<TLocation>;
+    from?: { pathname: string };
+};

@@ -1,50 +1,50 @@
 .page {
-  width: 100%;
-  margin: 0 auto;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  background-color: #131316;
-  box-sizing: border-box;
-  min-height: 100vh;
-  text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #131316;
+    box-sizing: border-box;
+    min-height: 100vh;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
 }
 
 .content {
-  width: 800px;
-  margin: 180px auto 0 auto;
-  padding: 0;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    width: 800px;
+    margin: 180px auto 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .header {
-  display: block;
-  text-align: center;
-  font-weight: 700;
-  font-size: 52px;
-  line-height: calc(52 / 48);
-  margin: 0 auto 24px;
+    display: block;
+    text-align: center;
+    font-weight: 700;
+    font-size: 52px;
+    line-height: calc(52 / 48);
+    margin: 0 auto 24px;
 }
 
 .paragraph {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: calc(24 / 16);
-  text-align: center;
-  color: #8585ad;
-  margin: 0;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: calc(24 / 16);
+    text-align: center;
+    color: #8585ad;
+    margin: 0;
 }
 
 .link {
-  text-decoration: none;
-  color: #4c4cff;
+    text-decoration: none;
+    color: #4c4cff;
 }
 
 .link:hover {
-  color: #3e3ef5;
+    color: #3e3ef5;
 }

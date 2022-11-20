@@ -1,7 +1,8 @@
 import styles from "./feed-order-id.module.css";
 import OrderIdFeedItem from "../components/order-id-feed-item/order-id-feed-item";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector, useDispatch} from "react-redux";
+import {useSelector} from "../services/hooks/useSelector";
+import {useDispatch} from "../services/hooks/useDispatch";
 import {nanoid} from "nanoid";
 import {useParams, useRouteMatch} from "react-router-dom";
 import {formatDate} from "../utils/format-date";
@@ -15,12 +16,9 @@ import {
 import {useEffect} from "react";
 import {FC} from "react";
 
-type TAlign = {
-    textAlign: string,
-}
 
-export const FeedOrderId: FC<TAlign> = ({textAlign}) => {
-    const {id} = useParams();
+export const FeedOrderId: FC<{ textAlign: string | undefined }> = ({textAlign}) => {
+    const {id} = useParams<{ id: string }>();
     const {path} = useRouteMatch();
     const dispatch = useDispatch();
 
@@ -60,7 +58,7 @@ export const FeedOrderId: FC<TAlign> = ({textAlign}) => {
             }
             return acc;
         },
-        {}
+        {} as { [key: string]: number }
     );
     //создаем массив из уникальных ингредиентов
 
@@ -70,12 +68,12 @@ export const FeedOrderId: FC<TAlign> = ({textAlign}) => {
 
     //создаем массив из уникальных ингредиентов для дальнейшей отрисовки,
     //добавляем в него количество повторов каждого ингредиента
-    const selectedIngredients = filteredOrderIngredients?.reduce(
+    const selectedIngredients: TSelectedIngredients = filteredOrderIngredients?.reduce(
         (acc, ingredient) => {
             for (let i = 0; i < ingredients.length; i++) {
-                if (ingredients[i]._id === ingredient) {
+                if (ingredients[i]._id === ingredient && countedOrderIngredients) {
                     const uniqueId = nanoid();
-                    acc.push({
+                    acc?.push({
                         _id: ingredients[i]._id,
                         price: ingredients[i].price,
                         image: ingredients[i].image,
@@ -87,13 +85,23 @@ export const FeedOrderId: FC<TAlign> = ({textAlign}) => {
             }
             return acc;
         },
-        []
+        [] as TSelectedIngredients
     );
 
-    const totalPrice = useMemo(() => {
-        return selectedIngredients?.reduce((acc, element) => {
-            acc += element.price * element.quantity;
+    type TSelectedIngredients = {
+        _id: string,
+        price: number,
+        image: string,
+        name: string,
+        nanoId: string,
+        quantity: number
+    }[] | undefined;
 
+    const totalPrice = useMemo(() => {
+        return selectedIngredients?.reduce((acc: number, element) => {
+            if (element.quantity) {
+                acc += element.price * element.quantity;
+            }
             return acc;
         }, 0);
     }, [selectedIngredients]);
@@ -126,7 +134,7 @@ export const FeedOrderId: FC<TAlign> = ({textAlign}) => {
                         Состав:
                     </p>
                     <ul className={styles.orderIngredients__list}>
-                        {selectedIngredients.map((ingredient) => (
+                        {selectedIngredients?.map((ingredient) => (
                             <li key={ingredient.nanoId}>
                                 <OrderIdFeedItem
                                     selectedIngredients={selectedIngredients}

@@ -1,6 +1,6 @@
 import styles from "./profile-navigation.module.css";
 import {NavLink, useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch} from "../../services/hooks/useDispatch";
 import {logout} from "../../services/actions/auth";
 import {FC} from "react";
 import {deleteCookie} from "../../utils/utils";
