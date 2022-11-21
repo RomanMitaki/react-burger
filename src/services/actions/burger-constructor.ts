@@ -28,7 +28,7 @@ export type TClearConstructorAction = {
 
 export type TSetTotalPriceAction = {
     readonly type: typeof SET_TOTAL_PRICE;
-    readonly data: { totalPrice: number };
+    readonly data: number;
 }
 
 export type TBurgerConstructorActions =
@@ -39,7 +39,7 @@ export type TBurgerConstructorActions =
     | TClearConstructorAction;
 
 
-export const setCurrentIngredient = (ingredient: {ingredient: TIngredient}) => {
+export const setCurrentIngredient = (ingredient: { ingredient: TIngredient }) => {
     const uniqueId = nanoid();
 
     let modifiedIngredient = {...ingredient.ingredient, uniqueId};

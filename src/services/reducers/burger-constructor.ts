@@ -73,7 +73,7 @@ export const burgerConstructorReducer = (state = initialState, action: TBurgerCo
         case SET_TOTAL_PRICE: {
             return {
                 ...state,
-                totalPrice: action.data.totalPrice,
+                totalPrice: action.data,
             };
         }
 

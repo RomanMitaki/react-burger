@@ -13,8 +13,9 @@ export type TIngredient = {
     readonly image_mobile: string,
     readonly image_large: string,
     readonly __v: number,
-    readonly uniqueId?: string,
+    uniqueId?: string,
     quantity?: number,
+    index?: number
 };
 
 export type TOrder = {

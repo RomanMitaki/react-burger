@@ -23,14 +23,11 @@ const BurgerFilling: FC<TProps> = ({ingredient, deleteHandler, index}) => {
 
     const [, drop] = useDrop({
         accept: "ingredientConstructor",
-        hover(item: { item: TIngredient, index: number }) {
-            if (!ref.current) {
+        drop(item: TIngredient) {
+            if (item.index === index) {
                 return;
             }
-            const dragIndex = item.index;
-            const hoverIndex = index;
-            dispatch(swapFillings(dragIndex, hoverIndex, ingredient));
-            item.index = hoverIndex;
+            item.index && dispatch(swapFillings(item.index, index, item))
         },
 
     });
