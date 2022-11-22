@@ -1,24 +1,24 @@
 .header {
-  width: 1280px;
-  box-sizing: border-box;
-  background-color: #1c1c21;
-  margin: 40px auto 0;
-  display: flex;
-  flex-direction: row;
+    width: 1280px;
+    box-sizing: border-box;
+    background-color: #1c1c21;
+    margin: 40px auto 0;
+    display: flex;
+    flex-direction: row;
 }
 
 .nav__list {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .logo__container {
-  display: block;
-  box-sizing: border-box;
-  margin: 0 291px 0 110px;
+    display: block;
+    box-sizing: border-box;
+    margin: 0 291px 0 110px;
 }
