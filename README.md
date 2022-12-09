@@ -26,7 +26,7 @@ Class app for ordering burgers with a personal account and order feed.
 
 ---
 
-# Stellar Burgers (учебный проект)
+## Stellar Burgers (учебный проект)
 
 ### Стек технологий:
 
