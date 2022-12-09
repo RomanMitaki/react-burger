@@ -1,9 +1,54 @@
-# Stellar burgers (class project)
+### Stellar burgers (class project)
 
-Учебный проект "Звездные бургеры", разработанный с применением библиотеки [React](https://reactjs.org/).
+### Tech stack:
 
-## Исходники
+* HTML/CSS
+* JS (TypeScript)
+* React
+* React-dnd
+* React Router
+* Redux 
+* WebSocket
 
-[Ссылка](https://www.figma.com/file/ocw9a6hNGeAejl4F3G9fp8/React-_-%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%BD%D1%8B%D0%B5-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B8-(3-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B0)_external_link?node-id=2%3A1) на проектные задачи в [Figma](https://www.figma.com).
+#### Features:
+Class app for ordering burgers with a personal account and order feed.
+- The app interacts with the server: authentication, authorization, it is possible to change user data, formation, saving and display of user orders
+- The selection of ingredients in the constructor works through dnd
+- Form validation
+- The general list of orders is updated via WebSocket
 
-## [Сайт](https://romanmitaki.github.io/react-burger/)
+#### Local deployment
+1. Clone the repository
+2. Launch with `npm start`
+3. Build project via `npm run build`. The finished project is in the `build` folder
+
+#### [Website](https://romanmitaki.github.io/react-burger/)
+
+---
+
+### Stellar Burgers (учебный проект)
+
+### Стек технологий:
+
+* HTML/CSS
+* JS (TypeScript)
+* React
+* React-dnd
+* React Router
+* Redux 
+* WebSocket
+
+#### Особенности:
+Учебное приложение для заказа бургеров с личным кабинетом и лентой заказов.
+- Приложение взаимодействует с сервером: аутентификация, авторизация, возможность изменения данных пользователя, формирование, сохранение и отображение заказов пользователя
+- Выбор ингредиентов в конструкторе работает посредством dnd
+- Валидация форм
+- Общий список заказов обновляется при помощи WebSocket
+
+#### Локальное размещение
+1. Клонируем репозиторий
+2. Запуск через `npm start`
+3. Сборка проекта через `npm run build`. Готовый проект находится в папке `build`
+
+
+#### [Сайт](https://romanmitaki.github.io/react-burger/)
